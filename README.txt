@@ -1,18 +1,35 @@
-LB1 DEVELOPMENTAL PHYSIOLOGY WEBSITE — VERSION 10
+LB1 DEVELOPMENTAL PHYSIOLOGY WEBSITE — VERSION 13 FINAL
 
-Open index.html in a browser.
+This website is the research-companion site for the frozen Version 13 thesis model.
 
-Version 10 updates:
-- iodine–thyroid model
-- multigenerational environmental-vulnerability layer
-- combined multigenerational + iodine + IGF model
-- updated working hypothesis
-- Version 10 validation results
-- updated V9/10 adult reference values
-- explicit scientific caution for exploratory parameters
-- no speculative hominin reconstruction
+Included:
+- index.html
+- styles.css
+- app.js
+- LB1_Developmental_Physiology_Model_v13_FINAL.py
 
-The website is a research companion. Definitive numerical results should be taken
-from LB1_Developmental_Physiology_Model_v10.py.
+The website now reflects:
+- fossil-constrained small-bodied Flores population baseline
+- separate individual developmental perturbation layer
+- IGF/growth and iodine-thyroid pathways
+- multigenerational susceptibility modifier
+- five-trait phenotype scoring
+- correlation-adjusted robustness analysis
+- global sensitivity analysis
+- frozen prior-width robustness
+- thesis rule against post-result parameter retuning
 
-The contextual photographs are loaded from Wikimedia Commons and require internet access.
+The browser simulator is explanatory and intentionally simplified.
+Definitive thesis outputs must come from the Python Monte Carlo model.
+
+RUN WEBSITE
+Double-click index.html.
+
+GITHUB
+Upload/replace:
+- index.html
+- styles.css
+- app.js
+- LB1_Developmental_Physiology_Model_v13_FINAL.py
+
+GitHub Pages will redeploy automatically if already enabled.

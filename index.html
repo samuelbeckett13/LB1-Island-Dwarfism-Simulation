@@ -3,51 +3,104 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LB1 Developmental Physiology Model — Version 10</title>
+<title>LB1 Developmental Physiology Model — Version 13 Final</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="topbar">
   <a class="brand" href="#home">
     <span class="mark">LB1</span>
-    <span><strong>Developmental Physiology Model</strong><small>Liang Bua · Flores · Version 10</small></span>
+    <span><strong>Developmental Physiology Model</strong><small>Version 13 Final · Thesis Freeze</small></span>
   </a>
   <nav>
-    <a href="#question">Question</a><a href="#model">Model</a><a href="#results">Results</a><a href="#evidence">Evidence</a><a href="#methods">Methods</a>
+    <a href="#hypothesis">Hypothesis</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#simulator">Simulator</a>
+    <a href="#results">Results</a>
+    <a href="#sensitivity">Sensitivity</a>
+    <a href="#methods">Methods</a>
   </nav>
+  <a class="code-btn" href="LB1_Developmental_Physiology_Model_v13_FINAL.py">Python model</a>
 </header>
 
 <main id="home">
 <section class="hero">
   <div class="hero-photo">
     <div class="hero-copy">
-      <div class="eyebrow">COMPUTATIONAL DEVELOPMENTAL PHYSIOLOGY</div>
-      <h1>Can developmental and multigenerational endocrine disruption approach the LB1 phenotype?</h1>
-      <p>Version 10 expands the audited model to test iodine–thyroid disruption and recurrent environmental conditions across generations while preserving the Version 9 benchmark mechanisms.</p>
-      <div class="actions"><a class="primary" href="#model">Explore Version 10</a><a href="#results">View results →</a></div>
+      <div class="eyebrow">FROZEN THESIS MODEL · VERSION 13</div>
+      <h1>From a small-bodied Flores population to an LB1-like phenotype.</h1>
+      <p>
+        A mechanistic sensitivity framework separating long-term Flores population
+        background from individual developmental perturbations of IGF/growth and
+        iodine–thyroid signaling.
+      </p>
+      <div class="actions">
+        <a class="primary" href="#simulator">Explore the model</a>
+        <a href="#results">View thesis outputs →</a>
+      </div>
       <div class="hero-stats">
         <div><span>Selected ICV target</span><b>430 cc</b></div>
         <div><span>Selected femur target</span><b>280 mm</b></div>
-        <div><span>New V10 modules</span><b>2</b></div>
+        <div><span>Primary endpoints</span><b>5</b></div>
+        <div><span>Final high-N plan</span><b>500k / experiment</b></div>
       </div>
     </div>
   </div>
   <small class="credit">Flores landscape · Wikimedia Commons</small>
 </section>
 
-<section id="question" class="section">
+<section id="hypothesis" class="section">
   <div class="heading">
-    <div><div class="eyebrow">WORKING HYPOTHESIS</div><h2>Environment, endocrine signaling, and developmental timing.</h2></div>
+    <div class="eyebrow">WORKING HYPOTHESIS</div>
+    <h2>Population background and individual development are modeled separately.</h2>
   </div>
   <blockquote>
-    We hypothesize that multigenerational environmental factors impacting endocrine signaling across generations, together with transient perturbations during specific windows of fetal development, can produce alterations in skeletal, cranial, and neurological development that together result in the phenotype observed in the LB1 fossil recovered from Liang Bua.
+    We hypothesize that multigenerational environmental factors impacting endocrine signaling across generations,
+    together with transient perturbations during specific windows of fetal development, can produce alterations in
+    skeletal, cranial, and neurological development that together result in the phenotype observed in the LB1 fossil
+    recovered from Liang Bua.
   </blockquote>
-  <div class="story">
-    <article><span>01</span><h3>Multigenerational background</h3><p>Recurrent environmental conditions modify maternal developmental vulnerability rather than directly shrinking each generation.</p></article>
-    <div>→</div>
-    <article><span>02</span><h3>Final-pregnancy perturbation</h3><p>Iodine–thyroid and IGF-axis disturbances act during tissue-specific developmental windows.</p></article>
-    <div>→</div>
-    <article><span>03</span><h3>Phenotype test</h3><p>Predicted adult femur and ICV are compared with the selected LB1 targets.</p></article>
+  <div class="freeze-note">
+    <strong>Thesis freeze:</strong>
+    Version 13 is prespecified. Parameter bounds should not be changed after the definitive high-N result is inspected.
+    Any later changes should be labeled post-hoc sensitivity analyses.
+  </div>
+</section>
+
+<section id="architecture" class="section">
+  <div class="heading split">
+    <div><div class="eyebrow">MODEL ARCHITECTURE</div><h2>Two levels of biology.</h2></div>
+    <p>The endocrine model is no longer required to create the entire small-bodied Flores phenotype from an average modern-human baseline.</p>
+  </div>
+
+  <div class="architecture">
+    <article>
+      <span>LEVEL 1 · POPULATION</span>
+      <h3>Small-bodied Flores baseline</h3>
+      <p>Fossil-constrained linear body-scale uncertainty is sampled before individual developmental perturbation.</p>
+      <code>scale ~ U(0.64, 0.80)</code>
+    </article>
+    <b>→</b>
+    <article>
+      <span>LEVEL 2 · DEVELOPMENT</span>
+      <h3>IGF + iodine–thyroid</h3>
+      <p>Developmentally timed skeletal and cranial effects are generated only when exposure overlaps the relevant growth window.</p>
+      <code>effect = severity × coupling × overlap × retention</code>
+    </article>
+    <b>+</b>
+    <article>
+      <span>MODIFIER</span>
+      <h3>Multigenerational susceptibility</h3>
+      <p>Recurrent environmental background modifies susceptibility but never directly shrinks anatomy generation after generation.</p>
+      <code>S(g+1)=ρS(g)+C·E(g)(1−S(g))</code>
+    </article>
+    <b>→</b>
+    <article class="green">
+      <span>OUTPUT</span>
+      <h3>Five-trait phenotype</h3>
+      <p>Femur · ICV · crural index · humerofemoral index · foot/femur index.</p>
+      <code>compatibility with LB1?</code>
+    </article>
   </div>
 </section>
 
@@ -57,125 +110,240 @@
     <figcaption><span>LIANG BUA</span><strong>Archaeological context</strong></figcaption>
   </figure>
   <div class="context-copy">
-    <div class="eyebrow">THE CORE MODELING PROBLEM</div>
-    <h2>The phenotype requires disproportionate cranial and skeletal change.</h2>
-    <p>Using the Version 9/10 female reference set, the selected LB1 targets require a large reduction in both endpoints, with the cranial requirement remaining especially difficult for simple growth-restriction models.</p>
-    <div class="fact"><b>35.5%</b><span>Approximate femur reduction from the V9/10 434-mm reference</span></div>
-    <div class="fact"><b>67.9%</b><span>Approximate ICV reduction from the V9/10 1341-cc reference</span></div>
+    <div class="eyebrow">WHY THE BASELINE CHANGED</div>
+    <h2>Small body size was a Flores population-level condition.</h2>
+    <p>
+      Version 13 begins with an uncertain small-bodied Flores population baseline rather than treating every
+      reduction from a modern-sized reference as individual pathology.
+    </p>
+    <div class="fact"><b>0.64–0.80×</b><span>Frozen Flores linear-scale sensitivity prior</span></div>
+    <div class="fact"><b>1.6–2.2</b><span>Frozen body–brain allometric exponent sensitivity range</span></div>
+    <div class="fact"><b>5 traits</b><span>Integrated phenotype score instead of femur + ICV alone</span></div>
   </div>
 </section>
 
-<section id="model" class="section">
+<section id="simulator" class="section">
   <div class="heading split">
-    <div><div class="eyebrow">LIVE VERSION 10 MODEL</div><h2>Build a developmental scenario.</h2></div>
-    <p>The browser simulator mirrors the structure of Version 10 for explanation. Definitive quantitative results come from the Python Monte Carlo model.</p>
+    <div><div class="eyebrow">LIVE RESEARCH COMPANION</div><h2>Explore the frozen architecture.</h2></div>
+    <p>
+      This browser simulator is explanatory. The definitive quantitative thesis results come from the Python
+      Monte Carlo model linked above.
+    </p>
   </div>
 
   <div class="model-grid">
     <aside class="controls panel">
-      <label><span>Model family</span>
-        <select id="family">
-          <option value="combined">Multigenerational + iodine + IGF</option>
-          <option value="iodine">Iodine–thyroid</option>
-          <option value="igf">Persistent IGF / GH-axis</option>
-          <option value="fgr">Transient FGR</option>
-          <option value="gc">Glucocorticoid</option>
-          <option value="uniform">Uniform scaling</option>
+      <label><span>Baseline</span>
+        <select id="baseline">
+          <option value="flores">Flores small-body + brain allometry</option>
+          <option value="bodyOnly">Flores small-body only</option>
+          <option value="modern">Modern benchmark</option>
         </select>
       </label>
-      <label class="range"><div><span>Severity</span><output id="severityOut"></output></div><input id="severity" type="range" min="0" max="100" value="78"></label>
-      <label class="range"><div><span>Onset</span><output id="startOut"></output></div><input id="start" type="range" min="4" max="34" value="10"></label>
-      <label class="range"><div><span>Duration</span><output id="durationOut"></output></div><input id="duration" type="range" min="1" max="24" value="16"></label>
-      <label class="range"><div><span>Skeletal coupling</span><output id="boneOut"></output></div><input id="bone" type="range" min="0" max="100" value="88"></label>
-      <label class="range"><div><span>Cranial coupling</span><output id="brainOut"></output></div><input id="brain" type="range" min="0" max="100" value="88"></label>
-      <label class="range"><div><span>Retention / persistence</span><output id="persistOut"></output></div><input id="persist" type="range" min="0" max="100" value="88"></label>
 
-      <div class="subhead"><span>VERSION 10 EXPANSION</span><small>Active for iodine / combined models</small></div>
-      <label id="iodineRow" class="range"><div><span>Iodine deficiency burden</span><output id="iodineOut"></output></div><input id="iodine" type="range" min="0" max="100" value="82"></label>
-      <label id="multiRow" class="range"><div><span>Environmental background</span><output id="multiOut"></output></div><input id="multi" type="range" min="0" max="100" value="65"></label>
-      <label id="genRow" class="range"><div><span>Generations</span><output id="genOut"></output></div><input id="generations" type="range" min="2" max="6" value="4"></label>
+      <label><span>Developmental architecture</span>
+        <select id="family">
+          <option value="full">IGF + iodine + multigenerational</option>
+          <option value="igfIodine">IGF + iodine</option>
+          <option value="igf">IGF only</option>
+          <option value="iodine">Iodine only</option>
+          <option value="none">No developmental insult</option>
+        </select>
+      </label>
 
-      <div class="presets"><button id="pCombined">Combined</button><button id="pIodine">Iodine</button><button id="pIGF">IGF</button></div>
+      <label class="range"><div><span>Flores baseline scale</span><output id="scaleOut"></output></div><input id="scale" type="range" min="64" max="80" value="74"></label>
+      <label class="range"><div><span>Brain allometry exponent</span><output id="expOut"></output></div><input id="brainExp" type="range" min="160" max="220" value="190"></label>
+
+      <div class="subhead"><span>INDIVIDUAL DEVELOPMENT</span><small>explanatory controls</small></div>
+
+      <label class="range"><div><span>IGF perturbation</span><output id="igfOut"></output></div><input id="igf" type="range" min="0" max="100" value="70"></label>
+      <label class="range"><div><span>Iodine / thyroid burden</span><output id="iodineOut"></output></div><input id="iodine" type="range" min="0" max="100" value="72"></label>
+      <label class="range"><div><span>Developmental overlap</span><output id="overlapOut"></output></div><input id="overlap" type="range" min="0" max="100" value="68"></label>
+      <label class="range"><div><span>Retention</span><output id="retentionOut"></output></div><input id="retention" type="range" min="0" max="100" value="82"></label>
+      <label class="range"><div><span>Multigenerational state</span><output id="multiOut"></output></div><input id="multi" type="range" min="0" max="100" value="18"></label>
+
+      <div class="presets">
+        <button id="pFull">Full</button><button id="pIodine">IGF+I</button><button id="pBaseline">Baseline</button>
+      </div>
       <div id="modelNote" class="note"></div>
     </aside>
 
     <section class="viz panel">
-      <div class="viz-head"><div><span class="micro">PHENOTYPE SPACE</span><h3>Current scenario vs. LB1</h3></div><div class="legend"><span><i class="model"></i>Model</span><span><i class="lb1"></i>LB1</span><span><i class="ref"></i>Reference</span></div></div>
+      <div class="viz-head">
+        <div><span class="micro">PHENOTYPE SPACE</span><h3>Current scenario vs. LB1</h3></div>
+        <div class="legend"><span><i class="model"></i>Model</span><span><i class="lb1"></i>LB1</span><span><i class="ref"></i>Reference</span></div>
+      </div>
       <div class="plot-wrap">
         <svg id="plot" viewBox="0 0 760 430"><rect width="760" height="430" rx="16" fill="#0a1b24"/><g id="grid"></g><g id="marks"></g></svg>
-        <div class="distance"><span>Phenotype distance</span><strong id="distanceBig"></strong><small id="fitLabel"></small></div>
+        <div class="distance"><span>Five-trait score</span><strong id="distanceBig"></strong><small id="fitLabel"></small></div>
       </div>
-      <div class="timeline-box">
-        <div><span>Developmental exposure window</span><b id="windowText"></b></div>
-        <div class="timeline"><span>I</span><span>II</span><span>III</span><i id="window"></i></div>
-        <div class="weeks"><span>0</span><span>12</span><span>24</span><span>40</span></div>
+      <div class="trait-bars">
+        <div><span>Femur</span><i><b id="barFemur"></b></i><em id="traitFemur"></em></div>
+        <div><span>ICV</span><i><b id="barICV"></b></i><em id="traitICV"></em></div>
+        <div><span>Crural</span><i><b id="barCrural"></b></i><em id="traitCrural"></em></div>
+        <div><span>Humerofemoral</span><i><b id="barHFI"></b></i><em id="traitHFI"></em></div>
+        <div><span>Foot/Femur</span><i><b id="barFFI"></b></i><em id="traitFFI"></em></div>
       </div>
     </section>
 
     <aside class="outputs panel">
-      <span class="micro">CURRENT OUTPUT</span>
-      <article><span>Predicted femur</span><div><strong id="femur"></strong><small> mm</small></div><em>LB1 target: 280 mm</em></article>
-      <article><span>Predicted ICV</span><div><strong id="icv"></strong><small> cc</small></div><em>LB1 target: 430 cc</em></article>
-      <article class="dist-card"><span>Distance</span><strong id="distance"></strong><em>Lower = closer</em></article>
+      <span class="micro">CURRENT PHENOTYPE</span>
+      <article><span>Femur</span><div><strong id="femur"></strong><small> mm</small></div><em>LB1: 280 mm</em></article>
+      <article><span>Endocranial volume</span><div><strong id="icv"></strong><small> cc</small></div><em>LB1: 430 cc</em></article>
+      <article><span>Crural index</span><div><strong id="crural"></strong></div><em>LB1: 83.9</em></article>
+      <article><span>Humerofemoral index</span><div><strong id="hfi"></strong></div><em>LB1: 87.8</em></article>
+      <article><span>Foot/Femur index</span><div><strong id="ffi"></strong></div><em>LB1: 70.0</em></article>
+      <article class="dist-card"><span>Five-trait score</span><strong id="distance"></strong><em>Lower = closer</em></article>
       <div class="response">
-        <h4>V10 state</h4>
-        <div><span>Multigenerational state</span><b id="state"></b></div>
-        <div><span>Susceptibility multiplier</span><b id="suscept"></b></div>
-        <div><span>Iodine / thyroid arm</span><b id="iodineState"></b></div>
+        <h4>MODEL DECOMPOSITION</h4>
+        <div><span>Baseline femur</span><b id="baselineFemur"></b></div>
+        <div><span>Baseline ICV</span><b id="baselineICV"></b></div>
+        <div><span>Developmental femur loss</span><b id="femurLoss"></b></div>
+        <div><span>Developmental brain loss</span><b id="brainLoss"></b></div>
       </div>
     </aside>
   </div>
 </section>
 
-<section class="section">
-  <div class="heading split"><div><div class="eyebrow">VERSION 10 LOGIC</div><h2>Background susceptibility + acute pathways.</h2></div><p>The multigenerational layer modifies susceptibility. It does not directly make each generation smaller.</p></div>
-  <div class="pathway">
-    <article><span>BACKGROUND</span><h3>Recurrent environment</h3><p>Nutrition, iodine availability, and maternal developmental history.</p><code>S(g+1)=ρS(g)+C·E(g)(1−S(g))</code></article>
-    <b>→</b>
-    <article class="accent"><span>FINAL PREGNANCY</span><h3>Iodine → thyroid</h3><p>Greater weighting of early maternal-thyroid-dependent neural development.</p><code>Iodine ↓ → T4/T3 ↓</code></article>
-    <b>+</b>
-    <article><span>FINAL PREGNANCY</span><h3>IGF / growth signaling</h3><p>Independent skeletal and cranial growth effects during developmental windows.</p><code>IGF signaling ↓</code></article>
-    <b>→</b>
-    <article class="green"><span>OUTPUT</span><h3>Integrated phenotype</h3><p>Femur, ICV, and standardized phenotype distance.</p><code>LB1-like?</code></article>
-  </div>
-  <div class="caution"><strong>Exploratory module:</strong> iodine and multigenerational coefficients are sensitivity parameters, not measured historical exposures at Liang Bua.</div>
-</section>
-
 <section id="results" class="section">
-  <div class="heading split"><div><div class="eyebrow">VERSION 10 VALIDATION</div><h2>The combined model moves closest in the initial run.</h2></div><p>These are the 10,000-simulation/model validation results used to check the new code before the definitive high-N analysis.</p></div>
-  <div class="results">
-    <article class="winner"><span>01</span><h3>Multigenerational + Iodine + IGF</h3><strong>3.56</strong><small>299.3 mm femur · 600.6 cc ICV</small></article>
-    <article><span>02</span><h3>Persistent IGF</h3><strong>9.41</strong><small>311.4 mm femur · 707.6 cc ICV</small></article>
-    <article><span>03</span><h3>Iodine–Thyroid</h3><strong>22.66</strong><small>381.5 mm femur · 648.7 cc ICV</small></article>
+  <div class="heading split">
+    <div><div class="eyebrow">VALIDATED THESIS-FREEZE OUTPUT</div><h2>What the frozen analysis currently shows.</h2></div>
+    <p>These values come from the validated 20,000-simulation-per-experiment thesis-freeze run. The definitive thesis run is prespecified at 500,000 per experiment.</p>
   </div>
-  <div class="insight">
-    <div><div class="eyebrow">INTERPRETATION</div><h3>Better does not mean proven.</h3><p>The combined hypothesis moves phenotype space in the predicted direction, but the best validation result still overshoots the selected 430-cc ICV target. The model therefore does not manufacture a perfect LB1 fit.</p></div>
-    <div class="target-box"><span>LB1 TARGET</span><b>280 mm</b><small>Femur</small><b>430 cc</b><small>ICV</small></div>
+
+  <div class="result-note">
+    <strong>Primary standard-score result:</strong>
+    the Version 12/13 validation favored Flores-baseline developmental models, while the correlation-adjusted
+    robustness score placed the modern-baseline full model and the leading Flores models very close together.
+  </div>
+
+  <div class="results-grid">
+    <article class="winner">
+      <span>PRIMARY STANDARD-SCORE CONTEXT</span>
+      <h3>Flores + IGF + iodine</h3>
+      <strong>7.92</strong>
+      <small>Validation best · 257.2 mm femur · 470.5 cc ICV</small>
+    </article>
+    <article>
+      <span>FULL FLORES MODEL</span>
+      <h3>Flores + IGF + iodine + multigenerational</h3>
+      <strong>8.64</strong>
+      <small>259.6 mm femur · 652.4 cc ICV</small>
+    </article>
+    <article>
+      <span>MODERN BENCHMARK</span>
+      <h3>Modern baseline + full model</h3>
+      <strong>10.57</strong>
+      <small>284.9 mm femur · 598.9 cc ICV</small>
+    </article>
+  </div>
+
+  <div class="robust-grid">
+    <section class="panel mini-table">
+      <div class="eyebrow">CORRELATION-ADJUSTED ROBUSTNESS</div>
+      <table>
+        <thead><tr><th>Model</th><th>Best score</th></tr></thead>
+        <tbody>
+          <tr><td>Modern baseline + full model</td><td>9.62</td></tr>
+          <tr><td>Flores full model</td><td>10.20</td></tr>
+          <tr><td>Flores IGF + iodine</td><td>10.24</td></tr>
+          <tr><td>Flores IGF</td><td>14.78</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel component-panel">
+      <div class="eyebrow">BEST FULL-FLORES ERROR DECOMPOSITION</div>
+      <div class="comp"><span>ICV</span><i><b style="width:100%"></b></i><strong>4.94</strong></div>
+      <div class="comp"><span>Humerofemoral</span><i><b style="width:49%"></b></i><strong>2.40</strong></div>
+      <div class="comp"><span>Femur</span><i><b style="width:15%"></b></i><strong>0.72</strong></div>
+      <div class="comp"><span>Crural</span><i><b style="width:11%"></b></i><strong>0.55</strong></div>
+      <div class="comp"><span>Foot/Femur</span><i><b style="width:1%"></b></i><strong>0.02</strong></div>
+    </section>
   </div>
 </section>
 
-<section id="evidence" class="section">
-  <div class="heading split"><div><div class="eyebrow">VISUAL CONTEXT</div><h2>Site, fossil, and island environment.</h2></div><p>Real contextual photography replaces speculative body reconstruction.</p></div>
-  <div class="gallery">
-    <figure><img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Homo_floresiensis_cave.jpg" alt="Liang Bua"><figcaption><span>LIANG BUA</span><b>Cave context</b></figcaption></figure>
-    <figure><img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Homo_floresiensis_skull_-_Naturmuseum_Senckenberg_-_DSC02091.JPG" alt="Floresiensis skull exhibit"><figcaption><span>FOSSIL CONTEXT</span><b>Skull exhibit</b></figcaption></figure>
-    <figure><img src="https://upload.wikimedia.org/wikipedia/commons/1/14/A_landscape_of_Flores_island_near_Komodo%2C_Indonesia%3B_January_2020.jpg" alt="Flores"><figcaption><span>FLORES</span><b>Island environment</b></figcaption></figure>
+<section id="sensitivity" class="section">
+  <div class="heading split">
+    <div><div class="eyebrow">GLOBAL SENSITIVITY</div><h2>Which assumptions actually drive the fit?</h2></div>
+    <p>Absolute Spearman rank correlation with total phenotype score in the validated full-Flores run.</p>
+  </div>
+
+  <div class="sensitivity-layout">
+    <div class="sensitivity-bars">
+      <div><span>Developmental femur loss</span><i><b style="width:68.2%"></b></i><strong>0.68</strong></div>
+      <div><span>Developmental brain loss</span><i><b style="width:40.7%"></b></i><strong>0.41</strong></div>
+      <div><span>Baseline ICV</span><i><b style="width:13.2%"></b></i><strong>0.13</strong></div>
+      <div><span>Flores linear scale</span><i><b style="width:11.3%"></b></i><strong>0.11</strong></div>
+      <div><span>Iodine burden</span><i><b style="width:9.5%"></b></i><strong>0.10</strong></div>
+      <div><span>Brain allometry exponent</span><i><b style="width:6.9%"></b></i><strong>0.07</strong></div>
+      <div><span>Susceptibility multiplier</span><i><b style="width:2.0%"></b></i><strong>0.02</strong></div>
+      <div><span>Multigenerational state</span><i><b style="width:1.7%"></b></i><strong>0.02</strong></div>
+    </div>
+    <div class="sensitivity-copy">
+      <div class="eyebrow">INTERPRETATION</div>
+      <h3>The acute developmental effects dominate.</h3>
+      <p>
+        In the validation run, the strongest drivers of total phenotype score were developmental femur and brain loss.
+        The multigenerational state behaved as a relatively modest susceptibility modifier rather than the primary engine of fit.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="heading split">
+    <div><div class="eyebrow">FROZEN ROBUSTNESS TEST</div><h2>The Flores baseline matters, so its uncertainty is reported.</h2></div>
+    <p>Version 13 prespecifies ±10% changes in the width of the Flores baseline prior rather than hiding sensitivity to baseline choice.</p>
+  </div>
+
+  <div class="robust-cards">
+    <article><span>PRIOR NARROWED 10%</span><strong>8.67</strong><small>best score</small></article>
+    <article class="winner"><span>FROZEN PRIOR</span><strong>6.91</strong><small>best score in robustness rerun</small></article>
+    <article><span>PRIOR WIDENED 10%</span><strong>6.48</strong><small>best score</small></article>
+  </div>
+  <div class="freeze-note">
+    These robustness runs use independent Monte Carlo samples and therefore should be interpreted as stability checks,
+    not as replacements for the primary model comparison.
   </div>
 </section>
 
 <section id="methods" class="section">
-  <div class="heading"><div><div class="eyebrow">METHODS & TRANSPARENCY</div><h2>Measured, modeled, and uncertain.</h2></div></div>
+  <div class="heading"><div class="eyebrow">METHODS & TRANSPARENCY</div><h2>What is data, what is derived, and what remains assumed?</h2></div>
+
   <div class="methods">
-    <article><span>OBSERVED TARGET</span><h3>LB1 endpoints</h3><p>430 cc ICV and 280 mm femur length are the selected comparison targets.</p></article>
-    <article><span>EMPIRICAL INPUT</span><h3>Growth trajectories</h3><p>V9/10 uses literature-based prenatal femur and fetal ICV growth trajectories to construct growth-velocity weights.</p></article>
-    <article><span>MODEL ASSUMPTION</span><h3>Iodine / thyroid coefficients</h3><p>Direction is biologically motivated; quantitative coupling to adult ICV and femur remains an exploratory sensitivity assumption.</p></article>
-    <article><span>MODEL ASSUMPTION</span><h3>Across generations</h3><p>The recurrent environmental state modifies susceptibility with regression toward baseline and is not asserted genetic or epigenetic inheritance.</p></article>
+    <article><span>OBSERVED TARGET</span><h3>LB1 endpoints</h3><p>280-mm femur, 430-cc ICV, crural index 83.9, humerofemoral index 87.8, and foot/femur index 70.0.</p></article>
+    <article><span>EMPIRICAL INPUT</span><h3>Prenatal trajectories</h3><p>Published fetal femur and ICV trajectories generate growth-velocity weighting functions.</p></article>
+    <article><span>SENSITIVITY PRIOR</span><h3>Flores population baseline</h3><p>Linear scale 0.64–0.80 and brain exponent 1.6–2.2 are frozen uncertainty ranges, not measured Flores population distributions.</p></article>
+    <article><span>EXPLORATORY</span><h3>Multigenerational modifier</h3><p>Represents recurrent environmental susceptibility with regression toward baseline; not genetic or proven epigenetic inheritance.</p></article>
+    <article><span>ROBUSTNESS</span><h3>Correlation-adjusted score</h3><p>A structural correlation matrix tests whether conclusions survive partial adjustment for shared femur information.</p></article>
+    <article><span>THESIS RULE</span><h3>No post-result retuning</h3><p>Once the 500,000-per-experiment run is inspected, parameter changes become explicitly post-hoc analyses.</p></article>
   </div>
-  <div class="scope"><strong>Scientific scope</strong><p>Version 10 tests physiological compatibility with selected LB1 endpoints. It does not establish historical causation, diagnosis, ancestry, or taxonomic status.</p></div>
+
+  <div class="scope">
+    <strong>Scientific scope</strong>
+    <p>
+      A close fit indicates compatibility with the tested physiological architecture. It does not establish that these
+      exposures occurred historically at Liang Bua, nor does the model determine diagnosis, ancestry, or taxonomic status.
+    </p>
+  </div>
+</section>
+
+<section class="section gallery-section">
+  <div class="heading split"><div><div class="eyebrow">VISUAL CONTEXT</div><h2>Flores, Liang Bua, and the fossil context.</h2></div><p>No speculative hominin reconstruction is used.</p></div>
+  <div class="gallery">
+    <figure><img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Homo_floresiensis_cave.jpg" alt="Liang Bua cave"><figcaption><span>LIANG BUA</span><b>Cave context</b></figcaption></figure>
+    <figure><img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Homo_floresiensis_skull_-_Naturmuseum_Senckenberg_-_DSC02091.JPG" alt="Homo floresiensis skull exhibit"><figcaption><span>FOSSIL CONTEXT</span><b>Skull exhibit</b></figcaption></figure>
+    <figure><img src="https://upload.wikimedia.org/wikipedia/commons/1/14/A_landscape_of_Flores_island_near_Komodo%2C_Indonesia%3B_January_2020.jpg" alt="Flores landscape"><figcaption><span>FLORES</span><b>Island environment</b></figcaption></figure>
+  </div>
 </section>
 </main>
 
-<footer><div><strong>LB1 Developmental Physiology Model</strong><span>Version 10 research companion</span></div><span>Expanded iodine–thyroid + multigenerational model</span></footer>
+<footer>
+  <div><strong>LB1 Developmental Physiology Model</strong><span>Version 13 Final · Frozen thesis model</span></div>
+  <span>Mechanistic sensitivity / physiological compatibility framework</span>
+</footer>
+
 <script src="app.js"></script>
 </body>
 </html>
