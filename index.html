@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LB1 Developmental Physiology Model</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#home">
+    <span class="brand-mark">LB1</span>
+    <span>
+      <strong>Developmental Physiology Model</strong>
+      <small>Liang Bua · Flores · Indonesia</small>
+    </span>
+  </a>
+  <nav>
+    <a href="#question">Question</a>
+    <a href="#model">Model</a>
+    <a href="#results">Results</a>
+    <a href="#evidence">Evidence</a>
+    <a href="#methods">Methods</a>
+  </nav>
+</header>
+
+<main id="home">
+  <section class="hero">
+    <div class="hero-photo"
+      style="background-image:
+      linear-gradient(90deg,rgba(4,15,22,.92) 0%,rgba(4,15,22,.72) 42%,rgba(4,15,22,.15) 75%,rgba(4,15,22,.05) 100%),
+      url('https://upload.wikimedia.org/wikipedia/commons/1/14/A_landscape_of_Flores_island_near_Komodo%2C_Indonesia%3B_January_2020.jpg');">
+      <div class="hero-copy">
+        <div class="eyebrow">COMPUTATIONAL DEVELOPMENTAL PHYSIOLOGY</div>
+        <h1>Could developmental timing produce an LB1-like phenotype?</h1>
+        <p>
+          A model-testing framework for asking whether transient or persistent physiological
+          disturbances can generate the selected cranial and skeletal measurements of LB1.
+        </p>
+        <div class="hero-actions">
+          <a class="primary" href="#model">Explore the model</a>
+          <a class="secondary" href="#results">See the final results →</a>
+        </div>
+        <div class="hero-metrics">
+          <div><span>Selected ICV target</span><strong>430 cc</strong></div>
+          <div><span>Selected femur target</span><strong>280 mm</strong></div>
+          <div><span>Model families</span><strong>5</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-credit">Flores landscape · Wikimedia Commons · Tiket2 / CC BY 2.0</div>
+  </section>
+
+  <section id="question" class="section question-section">
+    <div class="section-heading">
+      <div>
+        <div class="eyebrow">THE RESEARCH QUESTION</div>
+        <h2>Separate the observation from the explanation.</h2>
+      </div>
+      <p>
+        The model begins with measurements, then asks which physiological mechanisms can
+        approach them without freely tuning every parameter.
+      </p>
+    </div>
+
+    <div class="story-grid">
+      <article>
+        <span class="step">01</span>
+        <h3>Observe the phenotype</h3>
+        <p>Use selected LB1 cranial and skeletal measurements as fixed comparison targets.</p>
+      </article>
+      <div class="arrow">→</div>
+      <article>
+        <span class="step">02</span>
+        <h3>Define developmental mechanisms</h3>
+        <p>Specify timing, severity, tissue coupling, and persistence before evaluating fit.</p>
+      </article>
+      <div class="arrow">→</div>
+      <article>
+        <span class="step">03</span>
+        <h3>Test the output</h3>
+        <p>Compare each predicted phenotype with LB1 using a standardized multivariate distance.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="context-section">
+    <div class="context-grid">
+      <article class="photo-card cave-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Homo_floresiensis_cave.jpg"
+             alt="Liang Bua cave on Flores">
+        <div class="photo-overlay">
+          <div class="eyebrow">SITE CONTEXT</div>
+          <h3>Liang Bua</h3>
+          <p>The cave on Flores where the LB1 remains were recovered.</p>
+        </div>
+      </article>
+
+      <article class="context-copy">
+        <div class="eyebrow">WHY DEVELOPMENT MATTERS</div>
+        <h2>The phenotype is integrated, not a single measurement.</h2>
+        <p>
+          The central challenge is not merely producing short stature or a small cranium.
+          A viable developmental model has to explain how multiple tissues respond differently
+          across developmental windows.
+        </p>
+        <div class="context-facts">
+          <div>
+            <strong>29.6%</strong>
+            <span>Femur reduction required relative to the selected reference</span>
+          </div>
+          <div>
+            <strong>69.0%</strong>
+            <span>ICV reduction required relative to the selected reference</span>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="photo-credit">Liang Bua Cave · Wikimedia Commons · Rosino</div>
+  </section>
+
+  <section id="model" class="section model-section">
+    <div class="section-heading">
+      <div>
+        <div class="eyebrow">LIVE MODEL</div>
+        <h2>Build a developmental scenario.</h2>
+      </div>
+      <p>
+        Move the controls. The physiology model updates the predicted adult phenotype,
+        developmental exposure window, and LB1 distance immediately.
+      </p>
+    </div>
+
+    <div class="model-layout">
+      <aside class="control-panel">
+        <label class="field">
+          <span>Model family</span>
+          <select id="modelFamily">
+            <option value="igf">Persistent IGF / GH-axis</option>
+            <option value="fgr">Transient FGR / environmental</option>
+            <option value="gc">Glucocorticoid analogue</option>
+            <option value="uniform">Uniform scaling</option>
+          </select>
+        </label>
+
+        <label class="slider">
+          <div><span>Severity</span><output id="severityOut">62%</output></div>
+          <input id="severity" type="range" min="0" max="100" value="62">
+        </label>
+
+        <label class="slider">
+          <div><span>Onset</span><output id="startOut">22 weeks</output></div>
+          <input id="start" type="range" min="14" max="34" step="1" value="22">
+        </label>
+
+        <label class="slider">
+          <div><span>Duration</span><output id="durationOut">8 weeks</output></div>
+          <input id="duration" type="range" min="1" max="16" step="1" value="8">
+        </label>
+
+        <label class="slider">
+          <div><span>Skeletal coupling</span><output id="boneOut">85%</output></div>
+          <input id="bone" type="range" min="0" max="100" value="85">
+        </label>
+
+        <label class="slider">
+          <div><span>Cranial coupling</span><output id="brainOut">45%</output></div>
+          <input id="brain" type="range" min="0" max="100" value="45">
+        </label>
+
+        <label class="slider">
+          <div><span>Postnatal persistence</span><output id="persistOut">74%</output></div>
+          <input id="persist" type="range" min="0" max="100" value="74">
+        </label>
+
+        <div class="presets">
+          <button id="defaultPreset" class="active">Default</button>
+          <button id="mildPreset">Mild</button>
+          <button id="highPreset">High</button>
+        </div>
+
+        <div class="constraint" id="constraintText"></div>
+      </aside>
+
+      <section class="model-viz">
+        <div class="viz-top">
+          <div>
+            <span class="micro">PHENOTYPE SPACE</span>
+            <h3>Predicted phenotype vs. LB1</h3>
+          </div>
+          <div class="target-key">
+            <span><i class="dot model-dot"></i>Current model</span>
+            <span><i class="dot lb1-dot"></i>LB1</span>
+            <span><i class="dot ref-dot"></i>Reference</span>
+          </div>
+        </div>
+
+        <div class="plot-wrap">
+          <svg id="phenotypePlot" viewBox="0 0 760 430" role="img" aria-label="Phenotype space chart">
+            <defs>
+              <linearGradient id="plotbg" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#102733"/>
+                <stop offset="100%" stop-color="#081820"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="760" height="430" rx="14" fill="url(#plotbg)"/>
+            <g id="gridLines"></g>
+            <g id="plotMarks"></g>
+          </svg>
+
+          <div class="plot-annotation">
+            <span>Standardized phenotype distance</span>
+            <strong id="distanceBig">—</strong>
+            <small id="fitText">—</small>
+          </div>
+        </div>
+
+        <div class="timing-strip">
+          <div class="timing-head">
+            <span>Gestational exposure window</span>
+            <strong id="windowLabel">22 → 30 weeks</strong>
+          </div>
+          <div class="timeline">
+            <div class="trimester">I</div>
+            <div class="trimester">II</div>
+            <div class="trimester">III</div>
+            <div id="window" class="window"></div>
+          </div>
+          <div class="week-labels"><span>0</span><span>12</span><span>24</span><span>40</span></div>
+        </div>
+      </section>
+
+      <aside class="output-panel">
+        <span class="micro">CURRENT OUTPUT</span>
+
+        <article class="output-card">
+          <span>Predicted femur</span>
+          <div><strong id="femurValue">—</strong><small> mm</small></div>
+          <div class="bar"><i id="femurBar"></i><b style="left:70%"></b></div>
+          <em>LB1 target: 280 mm</em>
+        </article>
+
+        <article class="output-card">
+          <span>Predicted ICV</span>
+          <div><strong id="icvValue">—</strong><small> cc</small></div>
+          <div class="bar"><i id="icvBar"></i><b style="left:31%"></b></div>
+          <em>LB1 target: 430 cc</em>
+        </article>
+
+        <article class="output-card distance-card">
+          <span>Phenotype distance</span>
+          <strong id="distanceValue">—</strong>
+          <em>Lower = closer to LB1</em>
+        </article>
+
+        <div class="interpretation" id="interpretation"></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section pathway-section">
+    <div class="section-heading">
+      <div>
+        <div class="eyebrow">MODEL LOGIC</div>
+        <h2>From environment to phenotype.</h2>
+      </div>
+      <p>The website keeps the biological logic visible without pretending the causal history of LB1 is known.</p>
+    </div>
+
+    <div class="pathway">
+      <article>
+        <span>01</span>
+        <h3>Maternal / fetal environment</h3>
+        <p>Nutrition · oxygen · physiological stress</p>
+      </article>
+      <div class="path-arrow">→</div>
+      <article>
+        <span>02</span>
+        <h3>Placental & endocrine state</h3>
+        <p>Signal translation and fetal growth regulation</p>
+      </article>
+      <div class="path-arrow">→</div>
+      <article>
+        <span>03</span>
+        <h3>Developmental timing</h3>
+        <p>Tissue-specific growth velocity and sensitivity</p>
+      </article>
+      <div class="path-arrow">→</div>
+      <article>
+        <span>04</span>
+        <h3>Adult phenotype</h3>
+        <p>Femur · ICV · integrated proportions</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="results" class="section results-section">
+    <div class="section-heading">
+      <div>
+        <div class="eyebrow">FINAL VERSION 8 RESULTS</div>
+        <h2>Which constrained model gets closest?</h2>
+      </div>
+      <p>Lower standardized phenotype distance indicates a closer match to the selected LB1 target.</p>
+    </div>
+
+    <div class="result-list">
+      <article class="winner">
+        <div><span>01</span><h3>Uniform scaling</h3></div>
+        <strong>19.81</strong>
+        <div class="result-bar"><i style="width:11.5%"></i></div>
+      </article>
+      <article>
+        <div><span>02</span><h3>Persistent IGF analogue</h3></div>
+        <strong>21.53</strong>
+        <div class="result-bar"><i style="width:12.5%"></i></div>
+      </article>
+      <article>
+        <div><span>03</span><h3>Transient FGR</h3></div>
+        <strong>60.42</strong>
+        <div class="result-bar"><i style="width:35%"></i></div>
+      </article>
+      <article>
+        <div><span>04</span><h3>Glucocorticoid analogue</h3></div>
+        <strong>166.49</strong>
+        <div class="result-bar"><i style="width:96%"></i></div>
+      </article>
+      <article>
+        <div><span>05</span><h3>Null / reference adult</h3></div>
+        <strong>172.77</strong>
+        <div class="result-bar"><i style="width:100%"></i></div>
+      </article>
+    </div>
+
+    <div class="result-insight">
+      <div>
+        <div class="eyebrow">WHAT THE MODEL FOUND</div>
+        <h3>Simple mechanisms struggle with the cranial–skeletal differential.</h3>
+        <p>
+          Under the constrained Version 8 framework, none of the physiological analogue
+          models routinely reproduce both the selected 280-mm femur and 430-cc endocranial
+          volume simultaneously.
+        </p>
+      </div>
+      <div class="reduction-bars">
+        <div>
+          <span>Femur reduction required</span>
+          <div><i style="width:29.6%"></i></div>
+          <strong>29.6%</strong>
+        </div>
+        <div>
+          <span>ICV reduction required</span>
+          <div><i style="width:69%"></i></div>
+          <strong>69.0%</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="evidence" class="section evidence-section">
+    <div class="section-heading">
+      <div>
+        <div class="eyebrow">SITE & FOSSIL CONTEXT</div>
+        <h2>Relevant visual evidence.</h2>
+      </div>
+      <p>Real photographs provide context without introducing a speculative body reconstruction.</p>
+    </div>
+
+    <div class="gallery">
+      <figure class="gallery-large">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Homo_floresiensis_cave.jpg"
+             alt="Liang Bua Cave">
+        <figcaption>
+          <span>LIANG BUA</span>
+          <strong>Archaeological context</strong>
+          <small>Wikimedia Commons · Rosino</small>
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Homo_floresiensis_skull_-_Naturmuseum_Senckenberg_-_DSC02091.JPG"
+             alt="Homo floresiensis skull exhibit">
+        <figcaption>
+          <span>FOSSIL CONTEXT</span>
+          <strong>H. floresiensis skull exhibit</strong>
+          <small>Wikimedia Commons · Daderot · Public domain</small>
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/A_landscape_of_Flores_island_near_Komodo%2C_Indonesia%3B_January_2020.jpg"
+             alt="Flores landscape">
+        <figcaption>
+          <span>FLORES</span>
+          <strong>Island environment</strong>
+          <small>Wikimedia Commons · Tiket2 · CC BY 2.0</small>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="methods" class="section methods-section">
+    <div class="section-heading">
+      <div>
+        <div class="eyebrow">METHODS & TRANSPARENCY</div>
+        <h2>What is measured, modeled, and uncertain?</h2>
+      </div>
+    </div>
+
+    <div class="methods-grid">
+      <article>
+        <span>OBSERVED TARGET</span>
+        <h3>LB1 measurements</h3>
+        <p>430 cc endocranial volume and 280 mm femur length are the primary selected targets in this version.</p>
+      </article>
+      <article>
+        <span>EMPIRICAL INPUT</span>
+        <h3>Developmental timing</h3>
+        <p>Published prenatal growth trajectories are used conceptually to weight when tissues are most sensitive to perturbation.</p>
+      </article>
+      <article>
+        <span>MODEL ASSUMPTION</span>
+        <h3>Physiological coupling</h3>
+        <p>Severity, skeletal coupling, cranial coupling, and persistence are constrained parameters rather than observed LB1 exposures.</p>
+      </article>
+      <article>
+        <span>INTERPRETATION</span>
+        <h3>Compatibility, not causation</h3>
+        <p>The model tests whether a mechanism is compatible with the selected phenotype. It does not establish diagnosis, ancestry, or taxonomy.</p>
+      </article>
+    </div>
+
+    <div class="scope-note">
+      <strong>Scientific scope</strong>
+      <p>
+        The site is an interactive research companion to a developmental-physiology model.
+        It deliberately avoids a speculative reconstruction of the LB1 individual and focuses
+        on measurements, mechanisms, model behavior, and archaeological context.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div>
+    <strong>LB1 Developmental Physiology Model</strong>
+    <span>Interactive research companion</span>
+  </div>
+  <span>Version 8 · Physiological compatibility model</span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
