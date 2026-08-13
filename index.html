@@ -20,7 +20,10 @@
     <a href="#sensitivity">Sensitivity</a>
     <a href="#methods">Methods</a>
   </nav>
-  <a class="code-btn" href="LB1_Developmental_Physiology_Model_v13_FINAL.py">Python model</a>
+  <div class="source-actions">
+      <span class="version-pill"><b>V13</b><small>FINAL</small></span>
+      <a class="code-btn" href="#source-code">View model code</a>
+    </div>
 </header>
 
 <main id="home">
@@ -165,6 +168,7 @@
       <div class="presets">
         <button id="pFull">Full</button><button id="pIodine">IGF+I</button><button id="pBaseline">Baseline</button>
       </div>
+      <div class="sim-status"><i id="statusDot"></i><span id="statusText">Simulator loading…</span></div>
       <div id="modelNote" class="note"></div>
     </aside>
 
@@ -337,6 +341,48 @@
     <figure><img src="https://upload.wikimedia.org/wikipedia/commons/1/14/A_landscape_of_Flores_island_near_Komodo%2C_Indonesia%3B_January_2020.jpg" alt="Flores landscape"><figcaption><span>FLORES</span><b>Island environment</b></figcaption></figure>
   </div>
 </section>
+
+<section id="source-code" class="section source-section">
+  <div class="heading split">
+    <div>
+      <div class="eyebrow">REPRODUCIBILITY</div>
+      <h2>The frozen Version 13 Python model.</h2>
+    </div>
+    <p>The website is the interactive research companion. The Python file is the definitive Monte Carlo thesis model.</p>
+  </div>
+
+  <div class="source-card">
+    <div class="source-card-head">
+      <div>
+        <span class="file-icon">PY</span>
+        <div>
+          <strong>LB1_Developmental_Physiology_Model_v13_FINAL.py</strong>
+          <small>Frozen thesis analysis · default 500,000 simulations per experiment</small>
+        </div>
+      </div>
+      <a class="download-code" href="LB1_Developmental_Physiology_Model_v13_FINAL.py" download>Download Python model</a>
+    </div>
+
+    <pre><code><span class="code-comment"># Version 13 — frozen thesis architecture</span>
+<span class="code-name">FLORES_LINEAR_SCALE</span> = (<span class="code-num">0.64</span>, <span class="code-num">0.80</span>)
+
+<span class="code-key">def</span> <span class="code-fn">simulate</span>(baseline, igf, iodine, multigenerational):
+    population = <span class="code-fn">sample_flores_baseline</span>(baseline)
+    developmental_effect = <span class="code-fn">apply_endocrine_pathways</span>(
+        population,
+        igf=igf,
+        iodine=iodine,
+        multigenerational=multigenerational
+    )
+    <span class="code-key">return</span> <span class="code-fn">score_five_trait_phenotype</span>(developmental_effect)</code></pre>
+
+    <div class="source-footer">
+      <span>Primary endpoints: femur · ICV · crural · humerofemoral · foot/femur</span>
+      <span>Freeze rule: no post-result retuning</span>
+    </div>
+  </div>
+</section>
+
 </main>
 
 <footer>
@@ -344,6 +390,6 @@
   <span>Mechanistic sensitivity / physiological compatibility framework</span>
 </footer>
 
-<script src="app.js"></script>
+<script src="app.js?v=13.2" defer></script>
 </body>
 </html>

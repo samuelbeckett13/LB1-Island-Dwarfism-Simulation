@@ -1,35 +1,18 @@
-LB1 DEVELOPMENTAL PHYSIOLOGY WEBSITE — VERSION 13 FINAL
+LB1 DEVELOPMENTAL PHYSIOLOGY WEBSITE — VERSION 13.2 FIXED
 
-This website is the research-companion site for the frozen Version 13 thesis model.
+Fixes:
+- simulator initialization now waits for DOM readiness;
+- controls listen to both input and change events;
+- simulator checks for HTML/JS version mismatches and displays status;
+- app.js is cache-busted with ?v=13.2 for GitHub Pages;
+- Python model link was moved into a professional reproducibility section;
+- top navigation now uses a clean V13 FINAL badge + View model code control;
+- formatted code preview added to the website.
 
-Included:
-- index.html
-- styles.css
-- app.js
-- LB1_Developmental_Physiology_Model_v13_FINAL.py
+GitHub update:
+Replace index.html, styles.css, and app.js with these files.
+Also keep LB1_Developmental_Physiology_Model_v13_FINAL.py in the repository root.
 
-The website now reflects:
-- fossil-constrained small-bodied Flores population baseline
-- separate individual developmental perturbation layer
-- IGF/growth and iodine-thyroid pathways
-- multigenerational susceptibility modifier
-- five-trait phenotype scoring
-- correlation-adjusted robustness analysis
-- global sensitivity analysis
-- frozen prior-width robustness
-- thesis rule against post-result parameter retuning
-
-The browser simulator is explanatory and intentionally simplified.
-Definitive thesis outputs must come from the Python Monte Carlo model.
-
-RUN WEBSITE
-Double-click index.html.
-
-GITHUB
-Upload/replace:
-- index.html
-- styles.css
-- app.js
-- LB1_Developmental_Physiology_Model_v13_FINAL.py
-
-GitHub Pages will redeploy automatically if already enabled.
+If the old site remains visible after GitHub redeploys, hard-refresh:
+Mac: Command + Shift + R
+Windows: Ctrl + Shift + R
