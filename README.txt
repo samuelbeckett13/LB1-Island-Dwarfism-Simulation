@@ -1,26 +1,18 @@
-LB1 PROFESSIONAL PHOTO + MODEL WEBSITE
+LB1 DEVELOPMENTAL PHYSIOLOGY WEBSITE — VERSION 10
 
-This version removes the hominin reconstruction completely.
+Open index.html in a browser.
 
-DESIGN
-- Clean professional biomedical/research aesthetic
-- Real Flores / Liang Bua / fossil photography
-- Interactive model controls
-- Live phenotype-space plot
-- Gestational timing visualization
-- Physiological pathway
-- Final Version 8 model comparison
-- Methods / scientific scope
+Version 10 updates:
+- iodine–thyroid model
+- multigenerational environmental-vulnerability layer
+- combined multigenerational + iodine + IGF model
+- updated working hypothesis
+- Version 10 validation results
+- updated V9/10 adult reference values
+- explicit scientific caution for exploratory parameters
+- no speculative hominin reconstruction
 
-PHOTOGRAPHS
-The website loads three Wikimedia Commons images remotely:
-1. Liang Bua Cave — Rosino
-2. Homo floresiensis skull exhibit — Daderot (public domain)
-3. Flores landscape — Tiket2 (CC BY 2.0)
+The website is a research companion. Definitive numerical results should be taken
+from LB1_Developmental_Physiology_Model_v10.py.
 
-Because the images load from Wikimedia, an internet connection is required for the photographs.
-The interactive model itself works without external JavaScript libraries.
-
-RUNNING
-Double-click index.html.
-No Terminal server is required.
+The contextual photographs are loaded from Wikimedia Commons and require internet access.

@@ -1,149 +1,27 @@
-
 const $=s=>document.querySelector(s);
-
-const C={
-  family:$('#modelFamily'), severity:$('#severity'), start:$('#start'),
-  duration:$('#duration'), bone:$('#bone'), brain:$('#brain'), persist:$('#persist')
-};
-
-const REF={femur:397.47,icv:1387};
-const LB1={femur:280,icv:430};
-
-function compute(){
-  const fam=C.family.value;
-  let severity=+C.severity.value/100;
-  let bone=+C.bone.value/100;
-  let brain=+C.brain.value/100;
-  let persist=+C.persist.value/100;
-  const start=+C.start.value;
-  const duration=+C.duration.value;
-
-  let note='';
-  if(fam==='igf'){
-    bone=Math.max(.55,bone);
-    brain=Math.max(.25*bone,Math.min(.75*bone,brain));
-    persist=Math.max(.45,persist);
-    note='Persistent IGF analogue: skeletal effects are constrained to exceed cranial effects.';
-  }else if(fam==='fgr'){
-    bone=Math.max(.35,Math.min(.85,bone));
-    brain=Math.max(.05,Math.min(.40,brain));
-    persist=Math.min(.45,persist);
-    note='Transient FGR analogue: relative cranial sparing and stronger postnatal catch-up are enforced.';
-  }else if(fam==='gc'){
-    severity=Math.min(.08,severity);
-    bone=.01;brain=.012;persist=.20;
-    note='Glucocorticoid analogue: only modest human-observed growth effects are allowed.';
-  }else{
-    note='Uniform scaling applies the same proportional reduction to both selected endpoints.';
-  }
-
-  let femur,icv;
-
-  if(fam==='uniform'){
-    femur=REF.femur*(1-severity);
-    icv=REF.icv*(1-severity);
-  }else{
-    const timing=Math.max(.16,Math.min(.72,(duration/16)*(.72-Math.abs(start-25)/70)));
-    const boneLoss=Math.min(.95,severity*bone*(timing+persist*(1-timing)));
-    const brainLoss=Math.min(.95,severity*brain*(timing+persist*(1-timing)));
-    femur=REF.femur*(1-boneLoss);
-    icv=REF.icv*(1-brainLoss);
-  }
-
-  const distance=((femur-LB1.femur)/27.46)**2 + ((icv-LB1.icv)/77)**2;
-  return {fam,femur,icv,distance,start,duration,note};
+const C={family:$('#family'),severity:$('#severity'),start:$('#start'),duration:$('#duration'),bone:$('#bone'),brain:$('#brain'),persist:$('#persist'),iodine:$('#iodine'),multi:$('#multi'),generations:$('#generations')};
+const REF={femur:434,icv:1341}, LB1={femur:280,icv:430};
+const overlap=(start,dur,a,b)=>Math.max(0,Math.min(start+dur,b)-Math.max(start,a))/(b-a);
+function multiState(E,g){let S=0,rho=.28,c=.18;for(let i=0;i<g;i++)S=rho*S+c*E*(1-S);return Math.max(0,Math.min(1,S))}
+function calc(){
+ const fam=C.family.value,se=+C.severity.value/100,bo=+C.bone.value/100,br=+C.brain.value/100,p=+C.persist.value/100,st=+C.start.value,du=+C.duration.value,iod=+C.iodine.value/100,m=+C.multi.value/100,g=+C.generations.value;
+ const bf=Math.max(0,overlap(st,du,14,40)), cf=Math.max(0,overlap(st,du,20.5,34.5)), early=Math.max(0,overlap(st,du,4,20));
+ let bl=0,cl=0,note='',S=0,sus=1,thyroid=0;
+ if(fam==='uniform'){bl=cl=se;note='Uniform scaling reduces both selected endpoints by the same proportion.'}
+ if(fam==='gc'){bl=.03*se*bf;cl=.04*se*cf;note='Glucocorticoid effects remain intentionally modest.'}
+ if(fam==='fgr'){bl=se*Math.max(.35,bo)*bf*Math.min(.55,p);cl=se*Math.min(.40,br)*cf*Math.min(.45,p);note='Transient FGR emphasizes skeletal restriction with relative cranial sparing.'}
+ if(fam==='igf'){let bc=Math.max(.55,bo),rc=Math.max(.25*bc,Math.min(.75*bc,br));bl=se*bc*bf*Math.max(.60,p);cl=se*rc*cf*Math.max(.45,p);note='Persistent IGF disturbance affects skeletal and cranial growth independently.'}
+ if(fam==='iodine'){thyroid=iod*(.25+.75*se);let timing=Math.min(1,.7*early+.3*cf);cl=thyroid*(.3+.7*br)*timing*(.6+.4*p);bl=thyroid*(.35*bo)*bf*(.1+.6*p);note='Iodine–thyroid model weights early neural development more strongly than skeletal growth.'}
+ if(fam==='combined'){S=multiState(m,g);sus=1+S*.5;thyroid=iod*(.25+.75*se);let timing=Math.min(1,.7*early+.3*cf);let ib=thyroid*(.35*bo)*bf*(.1+.6*p)*sus,ic=thyroid*(.3+.7*br)*timing*(.6+.4*p)*sus;let bc=Math.max(.55,bo),rc=Math.max(.25*bc,Math.min(.75*bc,br));let gb=se*bc*bf*Math.max(.6,p)*sus,gc=se*rc*cf*Math.max(.45,p)*sus;bl=1-(1-Math.min(.95,ib))*(1-Math.min(.95,gb));cl=1-(1-Math.min(.95,ic))*(1-Math.min(.95,gc));note=`${g} generations produce a vulnerability state of ${S.toFixed(2)}, modifying susceptibility to final-pregnancy iodine/thyroid and IGF perturbations.`}
+ bl=Math.min(.95,Math.max(0,bl));cl=Math.min(.95,Math.max(0,cl));
+ let fem=REF.femur*(1-bl),icv=REF.icv*(1-cl),d=((fem-280)/24)**2+((icv-430)/100)**2;
+ return {fam,st,du,fem,icv,d,note,S,sus,thyroid};
 }
-
-function drawPlot(x){
-  const svg=$('#phenotypePlot');
-  const grid=$('#gridLines');
-  const marks=$('#plotMarks');
-  grid.innerHTML=''; marks.innerHTML='';
-
-  const L=68,R=725,T=28,B=365;
-  const xmin=150,xmax=430,ymin=300,ymax=1500;
-
-  function sx(v){return L+(v-xmin)/(xmax-xmin)*(R-L)}
-  function sy(v){return B-(v-ymin)/(ymax-ymin)*(B-T)}
-  function line(x1,y1,x2,y2,stroke,op=.18,dash=''){
-    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${stroke}" stroke-opacity="${op}" ${dash?`stroke-dasharray="${dash}"`:''}/>`;
-  }
-
-  let gh='';
-  [200,250,300,350,400].forEach(v=>{
-    const xx=sx(v);
-    gh+=line(xx,T,xx,B,'#83b8d1');
-    gh+=`<text x="${xx}" y="394" fill="#6f8997" font-size="11" text-anchor="middle">${v}</text>`;
-  });
-  [400,600,800,1000,1200,1400].forEach(v=>{
-    const yy=sy(v);
-    gh+=line(L,yy,R,yy,'#83b8d1');
-    gh+=`<text x="53" y="${yy+4}" fill="#6f8997" font-size="11" text-anchor="end">${v}</text>`;
-  });
-  gh+=`<text x="${(L+R)/2}" y="420" fill="#8aa6b5" font-size="12" text-anchor="middle">Femur length (mm)</text>`;
-  gh+=`<text x="17" y="${(T+B)/2}" fill="#8aa6b5" font-size="12" text-anchor="middle" transform="rotate(-90 17 ${(T+B)/2})">Endocranial volume (cc)</text>`;
-  grid.innerHTML=gh;
-
-  const points=[
-    {x:REF.femur,y:REF.icv,c:'#718995',r:8,label:'Reference'},
-    {x:LB1.femur,y:LB1.icv,c:'#f49b4b',r:10,label:'LB1'},
-    {x:x.femur,y:x.icv,c:'#70d0ff',r:11,label:'Current model'}
-  ];
-
-  marks.innerHTML=points.map(p=>`
-    <circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="${p.r+6}" fill="${p.c}" opacity=".08"/>
-    <circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="${p.r}" fill="${p.c}" stroke="#fff" stroke-opacity=".55" stroke-width="1.2"/>
-    <text x="${sx(p.x)+14}" y="${sy(p.y)-13}" fill="${p.c}" font-size="11">${p.label}</text>
-  `).join('');
-}
-
-function update(){
-  const x=compute();
-
-  $('#severityOut').textContent=C.severity.value+'%';
-  $('#startOut').textContent=C.start.value+' weeks';
-  $('#durationOut').textContent=C.duration.value+' weeks';
-  $('#boneOut').textContent=C.bone.value+'%';
-  $('#brainOut').textContent=C.brain.value+'%';
-  $('#persistOut').textContent=C.persist.value+'%';
-
-  $('#constraintText').textContent=x.note;
-
-  $('#femurValue').textContent=x.femur.toFixed(1);
-  $('#icvValue').textContent=x.icv.toFixed(0);
-  $('#distanceValue').textContent=x.distance.toFixed(2);
-  $('#distanceBig').textContent=x.distance.toFixed(2);
-
-  $('#femurBar').style.width=Math.min(100,x.femur/REF.femur*100)+'%';
-  $('#icvBar').style.width=Math.min(100,x.icv/REF.icv*100)+'%';
-
-  const end=Math.min(40,x.start+x.duration);
-  $('#windowLabel').textContent=x.start+' → '+end+' weeks';
-  $('#window').style.left=(x.start/40*100)+'%';
-  $('#window').style.width=((end-x.start)/40*100)+'%';
-
-  let fit,interp;
-  if(x.distance<2){fit='Very close';interp='This parameter set approaches the selected LB1 target closely.'}
-  else if(x.distance<20){fit='Relatively close';interp='The current scenario approaches the selected target but retains measurable mismatch.'}
-  else if(x.distance<70){fit='Moderate mismatch';interp='The current scenario reproduces part of the phenotype but not both endpoints simultaneously.'}
-  else{fit='Large mismatch';interp='The current scenario remains far from the selected LB1 phenotype.'}
-
-  $('#fitText').textContent=fit;
-  $('#interpretation').textContent=interp;
-
-  drawPlot(x);
-}
-
-Object.values(C).forEach(el=>el.addEventListener('input',update));
-
-$('#defaultPreset').addEventListener('click',()=>{
-  C.family.value='igf';C.severity.value=62;C.start.value=22;C.duration.value=8;C.bone.value=85;C.brain.value=45;C.persist.value=74;update();
-});
-$('#mildPreset').addEventListener('click',()=>{
-  C.family.value='fgr';C.severity.value=28;C.start.value=25;C.duration.value=5;C.bone.value=48;C.brain.value=20;C.persist.value=24;update();
-});
-$('#highPreset').addEventListener('click',()=>{
-  C.family.value='igf';C.severity.value=82;C.start.value=20;C.duration.value=12;C.bone.value=94;C.brain.value=70;C.persist.value=90;update();
-});
-
+function draw(x){const grid=$('#grid'),marks=$('#marks');let L=68,R=725,T=28,B=365,x0=150,x1=460,y0=250,y1=1450,sx=v=>L+(v-x0)/(x1-x0)*(R-L),sy=v=>B-(v-y0)/(y1-y0)*(B-T),g='';[200,250,300,350,400,450].forEach(v=>{let X=sx(v);g+=`<line x1="${X}" y1="${T}" x2="${X}" y2="${B}" stroke="#83b8d1" stroke-opacity=".15"/><text x="${X}" y="394" fill="#6f8997" font-size="11" text-anchor="middle">${v}</text>`});[400,600,800,1000,1200,1400].forEach(v=>{let Y=sy(v);g+=`<line x1="${L}" y1="${Y}" x2="${R}" y2="${Y}" stroke="#83b8d1" stroke-opacity=".15"/><text x="53" y="${Y+4}" fill="#6f8997" font-size="11" text-anchor="end">${v}</text>`});g+=`<text x="397" y="420" fill="#8aa6b5" font-size="12" text-anchor="middle">Femur length (mm)</text><text x="17" y="196" fill="#8aa6b5" font-size="12" text-anchor="middle" transform="rotate(-90 17 196)">Endocranial volume (cc)</text>`;grid.innerHTML=g;let pts=[[434,1341,'#748b97',8,'Reference'],[280,430,'#f49b4b',10,'LB1'],[x.fem,x.icv,'#70d0ff',11,'Current model']];marks.innerHTML=pts.map(p=>`<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="${p[3]+6}" fill="${p[2]}" opacity=".08"/><circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="${p[3]}" fill="${p[2]}" stroke="white" stroke-opacity=".55"/><text x="${sx(p[0])+14}" y="${sy(p[1])-13}" fill="${p[2]}" font-size="11">${p[4]}</text>`).join('')}
+function visibility(){let f=C.family.value,iod=f==='iodine'||f==='combined',mul=f==='combined';$('#iodineRow').classList.toggle('inactive',!iod);$('#multiRow').classList.toggle('inactive',!mul);$('#genRow').classList.toggle('inactive',!mul)}
+function update(){let x=calc();$('#severityOut').textContent=C.severity.value+'%';$('#startOut').textContent=C.start.value+' weeks';$('#durationOut').textContent=C.duration.value+' weeks';$('#boneOut').textContent=C.bone.value+'%';$('#brainOut').textContent=C.brain.value+'%';$('#persistOut').textContent=C.persist.value+'%';$('#iodineOut').textContent=C.iodine.value+'%';$('#multiOut').textContent=C.multi.value+'%';$('#genOut').textContent=C.generations.value;$('#modelNote').textContent=x.note;$('#femur').textContent=x.fem.toFixed(1);$('#icv').textContent=x.icv.toFixed(0);$('#distance').textContent=x.d.toFixed(2);$('#distanceBig').textContent=x.d.toFixed(2);$('#state').textContent=x.S.toFixed(2);$('#suscept').textContent=x.sus.toFixed(2)+'×';$('#iodineState').textContent=x.thyroid.toFixed(2);let fit=x.d<2?'Very close':x.d<5?'Close region':x.d<20?'Relatively close':x.d<70?'Moderate mismatch':'Large mismatch';$('#fitLabel').textContent=fit;let end=Math.min(40,x.st+x.du);$('#windowText').textContent=x.st+' → '+end+' weeks';$('#window').style.left=(x.st/40*100)+'%';$('#window').style.width=((end-x.st)/40*100)+'%';visibility();draw(x)}
+Object.values(C).forEach(e=>e.addEventListener('input',update));
+$('#pCombined').onclick=()=>{C.family.value='combined';C.severity.value=78;C.start.value=10;C.duration.value=16;C.bone.value=88;C.brain.value=88;C.persist.value=88;C.iodine.value=82;C.multi.value=65;C.generations.value=4;update()};
+$('#pIodine').onclick=()=>{C.family.value='iodine';C.severity.value=80;C.start.value=8;C.duration.value=14;C.bone.value=25;C.brain.value=85;C.persist.value=85;C.iodine.value=85;C.multi.value=10;C.generations.value=3;update()};
+$('#pIGF').onclick=()=>{C.family.value='igf';C.severity.value=70;C.start.value=18;C.duration.value=12;C.bone.value=85;C.brain.value=55;C.persist.value=80;C.iodine.value=20;C.multi.value=20;C.generations.value=3;update()};
 update();
