@@ -236,7 +236,7 @@
 
     update();
     if (statusDot) statusDot.classList.add("ready");
-    if (statusText) statusText.textContent = "Version 13.1 audited simulator ready — controls update live.";
+    if (statusText) statusText.textContent = "Version 14 definitive simulator ready — controls update live.";
   }
 
   if (document.readyState === "loading") {

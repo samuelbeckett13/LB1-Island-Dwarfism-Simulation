@@ -1,37 +1,40 @@
-LB1 DEVELOPMENTAL PHYSIOLOGY WEBSITE — VERSION 13.1 AUDITED FINAL
+LB1 DEVELOPMENTAL PHYSIOLOGY WEBSITE — VERSION 14 FINAL RESULTS
 
-This website matches:
-LB1_Developmental_Physiology_Model_v13_1_AUDITED_FINAL.py
+This website matches the frozen Version 14 definitive thesis model:
+LB1_Developmental_Physiology_Model_v14_DEFINITIVE.py
 
-PARAMETER-AUDIT CHANGES
-1. Normalized IGF-pathway perturbation: 0.20–1.00 -> 0.00–1.00
-2. Intergenerational growth-state transmission: 0.05–0.50 -> 0.10–0.29
+DEFINITIVE RUN
+500,000 simulations per experiment
+Fixed random seed: 20260813
 
-These changes were made for parameter provenance, not to improve model fit.
+PRIMARY RESULTS
+Modern baseline + full developmental model:
+  Best D = 2.614397
+  Median D = 146.732252
+  P(D<10) = 0.000058
+  P(D<20) = 0.000516
 
-Unchanged:
-- iodine burden remains a normalized 0–1 latent deficiency index;
-- Flores body scale remains a broad fossil-constrained sensitivity prior;
-- brain allometry remains a comparative-allometry-derived sensitivity range;
-- five-trait score and model architecture remain unchanged.
+Flores baseline + full developmental model:
+  Best D = 5.858220
+  Median D = 74.039143
+  P(D<10) = 0.000106
+  P(D<20) = 0.005914
 
-The browser simulator is explanatory. Definitive thesis inference comes from the Python Monte Carlo model.
+Flores + IGF + iodine:
+  Best D = 5.873277
 
-GITHUB UPDATE
-Replace index.html, styles.css, app.js, and the old V13 Python file with the files in this package.
-Then hard-refresh:
-Mac: Command + Shift + R
-Windows: Ctrl + Shift + R
+Flores + IGF:
+  Best D = 6.377542
 
+Flores + iodine:
+  Best D = 21.674940
 
-HYPOTHESIS WORDING UPDATE
-The website and downloadable Python model now use:
+INTERPRETATION
+The closest single simulated phenotype came from the modern-reference full model.
+Across the broader parameter space, the small-bodied Flores baseline substantially
+increased the frequency of moderately LB1-like phenotypes. Combined IGF and iodine
+perturbation outperformed either pathway alone within the Flores models, while the
+intergenerational susceptibility component contributed comparatively little.
 
-"We hypothesize that multigenerational environmental factors impacting endocrine
-signaling across generations, together with transient perturbations during specific
-windows of fetal development, can produce alterations in skeletal, cranial, and
-neurological development that together could result in the phenotype observed in
-the LB1 fossil recovered from Liang Bua."
-
-This is a wording-only revision. No model equations, parameter ranges, scoring,
-or simulation logic were changed.
+These results demonstrate compatibility within the prespecified model and do not
+establish historical causation or taxonomic identity.

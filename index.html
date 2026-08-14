@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LB1 Developmental Physiology Model — Version 13.1 Audited Final</title>
+<title>LB1 Developmental Physiology Model — Version 14 Definitive</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="topbar">
   <a class="brand" href="#home">
     <span class="mark">LB1</span>
-    <span><strong>Developmental Physiology Model</strong><small>Version 13.1 Audited Final · Thesis Freeze</small></span>
+    <span><strong>Developmental Physiology Model</strong><small>Version 14 Definitive · Thesis Freeze</small></span>
   </a>
   <nav>
     <a href="#hypothesis">Hypothesis</a>
@@ -21,7 +21,7 @@
     <a href="#methods">Methods</a>
   </nav>
   <div class="source-actions">
-      <span class="version-pill"><b>V13.1</b><small>FINAL</small></span>
+      <span class="version-pill"><b>V14</b><small>FINAL</small></span>
       <a class="code-btn" href="#source-code">View model code</a>
     </div>
 </header>
@@ -30,7 +30,7 @@
 <section class="hero">
   <div class="hero-photo">
     <div class="hero-copy">
-      <div class="eyebrow">AUDITED THESIS MODEL · VERSION 13.1</div>
+      <div class="eyebrow">AUDITED THESIS MODEL · VERSION 14</div>
       <h1>From a small-bodied Flores population to an LB1-like phenotype.</h1>
       <p>
         A mechanistic sensitivity framework separating long-term Flores population
@@ -58,14 +58,12 @@
     <h2>Population background and individual development are modeled separately.</h2>
   </div>
   <blockquote>
-    We hypothesize that multigenerational environmental factors impacting endocrine signaling across generations,
-    together with transient perturbations during specific windows of fetal development, can produce alterations in
-    skeletal, cranial, and neurological development that together could result in the phenotype observed in the LB1 fossil recovered from Liang Bua.
+    We hypothesize that multigenerational environmental factors impacting endocrine signaling across generations, together with transient perturbations during specific windows of fetal development, can produce alterations in skeletal, cranial, and neurological development that together could result in the phenotype observed in the LB1 fossil recovered from Liang Bua.
   </blockquote>
   <div class="freeze-note">
-    <strong>Thesis freeze:</strong>
-    Version 13.1 incorporates the final pre-run parameter audit. Parameter bounds should not be changed after the definitive high-N result is inspected.
-    Any later changes should be labeled post-hoc sensitivity analyses.
+    <strong>Definitive thesis freeze:</strong>
+    Version 14 is the prespecified model for the final 500,000-simulation-per-experiment analysis.
+    Once that run is inspected, parameter bounds should not be retuned; any later changes are post-hoc analyses.
   </div>
 </section>
 
@@ -107,30 +105,23 @@
 </section>
 
 
-<section class="section audit-section">
+
+<section class="section audit-section" id="registry">
   <div class="heading split">
-    <div>
-      <div class="eyebrow">PARAMETER AUDIT · VERSION 13.1</div>
-      <h2>Two ranges changed for provenance—not to improve fit.</h2>
-    </div>
-    <p>The architecture is unchanged. Version 13.1 revises only two parameter ranges after a literature audit conducted before the definitive high-N run.</p>
+    <div><div class="eyebrow">PRESPECIFIED PARAMETER REGISTRY · VERSION 14</div>
+    <h2>The final model inputs are locked before the definitive run.</h2></div>
+    <p>These ranges combine empirical inputs, literature-derived constraints, and explicitly labeled sensitivity parameters.</p>
   </div>
-  <div class="audit-grid">
-    <article>
-      <span>NORMALIZED IGF-PATHWAY PERTURBATION</span>
-      <div class="audit-change"><del>0.20–1.00</del><b>→</b><strong>0.00–1.00</strong></div>
-      <p>This is a dimensionless model index, not a measured IGF concentration or percentage. The lower bound now includes mild modeled perturbations.</p>
-      <small>Classification: prespecified sensitivity parameter</small>
-    </article>
-    <article>
-      <span>INTERGENERATIONAL GROWTH-STATE TRANSMISSION</span>
-      <div class="audit-change"><del>0.05–0.50</del><b>→</b><strong>0.10–0.29</strong></div>
-      <p>This range is anchored to reported human maternal–offspring birth-size continuity coefficients. It is not interpreted as genetic or proven epigenetic inheritance.</p>
-      <small>Classification: literature-anchored sensitivity parameter</small>
-    </article>
+  <div class="registry-grid">
+    <article><span>FLORES LINEAR SCALE</span><strong>0.64–0.80×</strong><p>Broad fossil-constrained small-body sensitivity prior.</p><small>Fossil-constrained sensitivity prior</small></article>
+    <article><span>BRAIN ALLOMETRY EXPONENT</span><strong>1.60–2.20</strong><p>Comparative-allometry-derived ICV scaling range.</p><small>Literature-derived sensitivity range</small></article>
+    <article><span>NORMALIZED IGF PERTURBATION</span><strong>0.00–1.00</strong><p>Dimensionless model index; not a clinical IGF percentage.</p><small>Prespecified sensitivity parameter</small></article>
+    <article><span>IODINE BURDEN</span><strong>0.00–1.00</strong><p>Normalized latent deficiency index; not urinary iodine concentration.</p><small>Prespecified sensitivity parameter</small></article>
+    <article><span>INTERGENERATIONAL TRANSMISSION</span><strong>0.10–0.29</strong><p>Literature-anchored growth-state transmission coefficient.</p><small>Literature-anchored sensitivity parameter</small></article>
+    <article><span>DEFINITIVE ANALYSIS</span><strong>500,000</strong><p>Simulations per experiment with fixed seed 20260813.</p><small>Frozen analysis plan</small></article>
   </div>
-  <div class="audit-note"><strong>Unchanged:</strong> iodine burden remains a normalized 0–1 latent deficiency index; Flores scale remains a broad fossil-constrained sensitivity prior; brain allometry remains a comparative-allometry-derived sensitivity range.</div>
 </section>
+
 
 <section class="context">
   <figure>
@@ -141,7 +132,7 @@
     <div class="eyebrow">WHY THE BASELINE CHANGED</div>
     <h2>Small body size was a Flores population-level condition.</h2>
     <p>
-      Version 13 begins with an uncertain small-bodied Flores population baseline rather than treating every
+      Version 14 begins with an uncertain small-bodied Flores population baseline rather than treating every
       reduction from a modern-sized reference as individual pathology.
     </p>
     <div class="fact"><b>0.64–0.80×</b><span>Frozen Flores linear-scale sensitivity prior</span></div>
@@ -152,7 +143,7 @@
 
 <section id="simulator" class="section">
   <div class="heading split">
-    <div><div class="eyebrow">LIVE RESEARCH COMPANION</div><h2>Explore the frozen architecture.</h2></div>
+    <div><div class="eyebrow">LIVE VERSION 14 RESEARCH COMPANION</div><h2>Explore the frozen architecture.</h2></div>
     <p>
       This browser simulator is explanatory. The definitive quantitative thesis results come from the Python
       Monte Carlo model linked above.
@@ -234,52 +225,112 @@
   </div>
 </section>
 
+
+
 <section id="results" class="section">
   <div class="heading split">
-    <div><div class="eyebrow">VALIDATED THESIS-FREEZE OUTPUT</div><h2>What the frozen analysis currently shows.</h2></div>
-    <p>These values come from the validated 20,000-simulation-per-experiment thesis-freeze run. The definitive thesis run is prespecified at 500,000 per experiment.</p>
+    <div>
+      <div class="eyebrow">DEFINITIVE VERSION 14 RESULTS · N = 500,000 / EXPERIMENT</div>
+      <h2>Developmental models can approach the LB1 phenotype, but the result depends strongly on baseline and pathway combination.</h2>
+    </div>
+    <p>
+      These are the frozen Version 14 results generated with seed 20260813. The model is interpreted as a
+      physiological-compatibility and sensitivity analysis—not a reconstruction of historical causation.
+    </p>
   </div>
 
-  <div class="result-note">
-    <strong>Primary standard-score result:</strong>
-    the Version 12/13 validation favored Flores-baseline developmental models, while the correlation-adjusted
-    robustness score placed the modern-baseline full model and the leading Flores models very close together.
-  </div>
-
-  <div class="results-grid">
-    <article class="winner">
-      <span>PRIMARY STANDARD-SCORE CONTEXT</span>
-      <h3>Flores + IGF + iodine</h3>
-      <strong>7.92</strong>
-      <small>Validation best · 257.2 mm femur · 470.5 cc ICV</small>
+  <div class="headline-results">
+    <article>
+      <span>CLOSEST SINGLE SIMULATION</span>
+      <strong>2.61</strong>
+      <h3>Modern baseline + full developmental model</h3>
+      <p>The mathematically closest individual simulation across the seven prespecified architectures.</p>
     </article>
     <article>
-      <span>FULL FLORES MODEL</span>
-      <h3>Flores + IGF + iodine + multigenerational</h3>
-      <strong>8.64</strong>
-      <small>259.6 mm femur · 652.4 cc ICV</small>
+      <span>BEST FLORES FULL MODEL</span>
+      <strong>5.86</strong>
+      <h3>Flores baseline + full developmental model</h3>
+      <p>Best fit when a small-bodied Flores population baseline precedes the developmental perturbation.</p>
     </article>
     <article>
-      <span>MODERN BENCHMARK</span>
-      <h3>Modern baseline + full model</h3>
-      <strong>10.57</strong>
-      <small>284.9 mm femur · 598.9 cc ICV</small>
+      <span>FLORES FULL MODEL · P(D&lt;20)</span>
+      <strong>0.591%</strong>
+      <h3>≈11.5× the modern full model</h3>
+      <p>LB1-like regions of phenotype space were substantially more frequent from the Flores baseline at this threshold.</p>
     </article>
   </div>
 
-  <div class="robust-grid">
-    <section class="panel mini-table">
-      <div class="eyebrow">CORRELATION-ADJUSTED ROBUSTNESS</div>
-      <table>
-        <thead><tr><th>Model</th><th>Best score</th></tr></thead>
-        <tbody>
-          <tr><td>Modern baseline + full model</td><td>9.62</td></tr>
-          <tr><td>Flores full model</td><td>10.20</td></tr>
-          <tr><td>Flores IGF + iodine</td><td>10.24</td></tr>
-          <tr><td>Flores IGF</td><td>14.78</td></tr>
-        </tbody>
-      </table>
-    </section>
+  <div class="result-table-wrap">
+    <table class="result-table">
+      <thead>
+        <tr><th>Architecture</th><th>Best D</th><th>Median D</th><th>P(D&lt;10)</th><th>P(D&lt;20)</th></tr>
+      </thead>
+      <tbody>
+        <tr class="best-row"><td>Modern baseline + full developmental model</td><td>2.614</td><td>146.73</td><td>0.0058%</td><td>0.0516%</td></tr>
+        <tr><td>Flores baseline + full developmental model</td><td>5.858</td><td>74.04</td><td>0.0106%</td><td>0.5914%</td></tr>
+        <tr><td>Flores baseline + IGF + iodine</td><td>5.873</td><td>74.60</td><td>0.0102%</td><td>0.5466%</td></tr>
+        <tr><td>Flores baseline + IGF</td><td>6.378</td><td>78.47</td><td>0.0034%</td><td>0.3280%</td></tr>
+        <tr><td>Flores baseline + iodine</td><td>21.675</td><td>98.49</td><td>0</td><td>0</td></tr>
+        <tr><td>Flores allometric baseline; no developmental insult</td><td>38.087</td><td>103.31</td><td>0</td><td>0</td></tr>
+        <tr><td>Flores body-only baseline; no developmental insult</td><td>115.865</td><td>176.88</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="interpret-grid">
+    <article>
+      <span>POPULATION BASELINE</span>
+      <h3>Flores shifts the broader phenotype distribution closer to LB1.</h3>
+      <p>
+        Although the modern full model produced the lowest single score, the Flores full model had a median distance
+        of 74.04 versus 146.73 and generated D&lt;20 phenotypes about 11.5 times as often.
+      </p>
+    </article>
+    <article>
+      <span>PATHWAY COMBINATION</span>
+      <h3>IGF + iodine performed better than either pathway alone.</h3>
+      <p>
+        Best Flores scores were 6.38 for IGF, 21.67 for iodine, and 5.87 for IGF + iodine.
+        Iodine therefore behaved primarily as a modifying pathway rather than a sufficient explanation by itself.
+      </p>
+    </article>
+    <article>
+      <span>INTERGENERATIONAL COMPONENT</span>
+      <h3>The added multigenerational susceptibility effect was small.</h3>
+      <p>
+        Adding the full intergenerational architecture changed the best Flores score only from 5.873 to 5.858.
+        Its global rank sensitivity was also weak relative to developmental skeletal and brain effects.
+      </p>
+    </article>
+  </div>
+
+  <div class="best-flores panel">
+    <div>
+      <div class="eyebrow">BEST FLORES-BASELINE FULL PHENOTYPE</div>
+      <h3>What the closest Flores full-model simulation looked like</h3>
+      <p>
+        Baseline scale 0.7503 · baseline ICV 831.48 cc · additional femur loss 30.15% ·
+        additional brain loss 40.46%.
+      </p>
+    </div>
+    <div class="phenotype-grid">
+      <article><span>FEMUR</span><strong>227.46</strong><small>mm</small></article>
+      <article><span>TIBIA</span><strong>187.41</strong><small>mm</small></article>
+      <article><span>HUMERUS</span><strong>199.56</strong><small>mm</small></article>
+      <article><span>FOOT</span><strong>161.85</strong><small>mm</small></article>
+      <article><span>ICV</span><strong>495.06</strong><small>cc</small></article>
+      <article><span>DISTANCE</span><strong>5.858</strong><small>standardized score</small></article>
+    </div>
+  </div>
+
+  <div class="freeze-note">
+    <strong>Interpretive boundary:</strong>
+    A close simulated fit demonstrates compatibility within the prespecified model. It does not establish that endocrine
+    perturbation caused LB1, and it does not by itself resolve the taxonomic status of H. floresiensis.
+  </div>
+</section>
+
+
 
     <section class="panel component-panel">
       <div class="eyebrow">BEST FULL-FLORES ERROR DECOMPOSITION</div>
@@ -292,50 +343,43 @@
   </div>
 </section>
 
+
+
 <section id="sensitivity" class="section">
   <div class="heading split">
-    <div><div class="eyebrow">GLOBAL SENSITIVITY</div><h2>Which assumptions actually drive the fit?</h2></div>
-    <p>Absolute Spearman rank correlation with total phenotype score in the validated full-Flores run.</p>
+    <div><div class="eyebrow">VERSION 14 GLOBAL SENSITIVITY</div><h2>Developmental skeletal and brain effects dominated model fit.</h2></div>
+    <p>Absolute Spearman correlations quantify association with the total phenotype score in the definitive analysis.</p>
   </div>
 
-  <div class="sensitivity-layout">
-    <div class="sensitivity-bars">
-      <div><span>Developmental femur loss</span><i><b style="width:68.2%"></b></i><strong>0.68</strong></div>
-      <div><span>Developmental brain loss</span><i><b style="width:40.7%"></b></i><strong>0.41</strong></div>
-      <div><span>Baseline ICV</span><i><b style="width:13.2%"></b></i><strong>0.13</strong></div>
-      <div><span>Flores linear scale</span><i><b style="width:11.3%"></b></i><strong>0.11</strong></div>
-      <div><span>Iodine burden</span><i><b style="width:9.5%"></b></i><strong>0.10</strong></div>
-      <div><span>Brain allometry exponent</span><i><b style="width:6.9%"></b></i><strong>0.07</strong></div>
-      <div><span>Susceptibility multiplier</span><i><b style="width:2.0%"></b></i><strong>0.02</strong></div>
-      <div><span>Intergenerational transmission</span><i><b style="width:1.7%"></b></i><strong>0.02</strong></div>
-    </div>
-    <div class="sensitivity-copy">
-      <div class="eyebrow">INTERPRETATION</div>
-      <h3>The acute developmental effects dominate.</h3>
-      <p>
-        In the validation run, the strongest drivers of total phenotype score were developmental femur and brain loss.
-        The multigenerational state behaved as a relatively modest susceptibility modifier rather than the primary engine of fit.
-      </p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="heading split">
-    <div><div class="eyebrow">FROZEN ROBUSTNESS TEST</div><h2>The Flores baseline matters, so its uncertainty is reported.</h2></div>
-    <p>Version 13 prespecifies ±10% changes in the width of the Flores baseline prior rather than hiding sensitivity to baseline choice.</p>
+  <div class="sensitivity-bars">
+    <div class="sbar"><span>Developmental femur loss</span><div><i style="width:100%"></i></div><strong>0.720</strong></div>
+    <div class="sbar"><span>Developmental brain loss</span><div><i style="width:65.4%"></i></div><strong>0.470</strong></div>
+    <div class="sbar"><span>Baseline ICV</span><div><i style="width:20.3%"></i></div><strong>0.146</strong></div>
+    <div class="sbar"><span>Baseline linear scale</span><div><i style="width:18.2%"></i></div><strong>0.131</strong></div>
+    <div class="sbar"><span>Iodine burden</span><div><i style="width:12.7%"></i></div><strong>0.092</strong></div>
+    <div class="sbar"><span>Brain allometry exponent</span><div><i style="width:8.9%"></i></div><strong>0.064</strong></div>
+    <div class="sbar"><span>Susceptibility</span><div><i style="width:3.3%"></i></div><strong>0.024</strong></div>
+    <div class="sbar"><span>Intergenerational state</span><div><i style="width:2.2%"></i></div><strong>0.016</strong></div>
+    <div class="sbar"><span>Environmental burden</span><div><i style="width:1.8%"></i></div><strong>0.013</strong></div>
   </div>
 
-  <div class="robust-cards">
-    <article><span>PRIOR NARROWED 10%</span><strong>8.67</strong><small>best score</small></article>
-    <article class="winner"><span>FROZEN PRIOR</span><strong>6.91</strong><small>best score in robustness rerun</small></article>
-    <article><span>PRIOR WIDENED 10%</span><strong>6.48</strong><small>best score</small></article>
+  <div class="robust-grid">
+    <article><span>CORRELATION-ADJUSTED BEST</span><strong>2.44</strong><p>Modern baseline + full developmental model</p></article>
+    <article><span>FLORES FULL · ADJUSTED</span><strong>7.26</strong><p>Best correlation-adjusted Flores full-model score</p></article>
+    <article><span>FROZEN PRIOR · BEST</span><strong>7.38</strong><p>100,000-run frozen Flores prior-width robustness analysis</p></article>
+    <article><span>FROZEN PRIOR · P(D&lt;20)</span><strong>0.570%</strong><p>Stable near the widened and narrowed prior analyses</p></article>
   </div>
+
   <div class="freeze-note">
-    These robustness runs use independent Monte Carlo samples and therefore should be interpreted as stability checks,
-    not as replacements for the primary model comparison.
+    <strong>Sensitivity conclusion:</strong>
+    the modeled developmental reductions in skeletal size and brain volume were the strongest drivers of fit.
+    The intergenerational susceptibility terms had comparatively weak global associations with score.
   </div>
 </section>
+
+
+
+
 
 <section id="methods" class="section">
   <div class="heading"><div class="eyebrow">METHODS & TRANSPARENCY</div><h2>What is data, what is derived, and what remains assumed?</h2></div>
@@ -371,7 +415,7 @@
   <div class="heading split">
     <div>
       <div class="eyebrow">REPRODUCIBILITY</div>
-      <h2>The audited Version 13.1 Python model.</h2>
+      <h2>The definitive Version 14 Python model.</h2>
     </div>
     <p>The website is the interactive research companion. The Python file is the definitive Monte Carlo thesis model.</p>
   </div>
@@ -381,14 +425,14 @@
       <div>
         <span class="file-icon">PY</span>
         <div>
-          <strong>LB1_Developmental_Physiology_Model_v13_1_AUDITED_FINAL_HYPOTHESIS_UPDATED.py</strong>
+          <strong>LB1_Developmental_Physiology_Model_v14_DEFINITIVE.py</strong>
           <small>Frozen thesis analysis · default 500,000 simulations per experiment</small>
         </div>
       </div>
-      <a class="download-code" href="LB1_Developmental_Physiology_Model_v13_1_AUDITED_FINAL_HYPOTHESIS_UPDATED.py" download>Download Python model</a>
+      <a class="download-code" href="LB1_Developmental_Physiology_Model_v14_DEFINITIVE.py" download>Download Python model</a>
     </div>
 
-    <pre><code><span class="code-comment"># Version 13 — frozen thesis architecture</span>
+    <pre><code><span class="code-comment"># Version 14 — frozen thesis architecture</span>
 <span class="code-name">FLORES_LINEAR_SCALE</span> = (<span class="code-num">0.64</span>, <span class="code-num">0.80</span>)
 
 <span class="code-key">def</span> <span class="code-fn">simulate</span>(baseline, igf, iodine, multigenerational):
@@ -411,10 +455,10 @@
 </main>
 
 <footer>
-  <div><strong>LB1 Developmental Physiology Model</strong><span>Version 13.1 Audited Final · Frozen thesis model</span></div>
+  <div><strong>LB1 Developmental Physiology Model</strong><span>Version 14 Definitive · Frozen thesis model</span></div>
   <span>Mechanistic sensitivity / physiological compatibility framework</span>
 </footer>
 
-<script src="app.js?v=13.1-audited" defer></script>
+<script src="app.js?v=14-definitive" defer></script>
 </body>
 </html>
