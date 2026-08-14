@@ -38,7 +38,7 @@
       const iod = Number(C.iodine.value)/100;
       const ov = Number(C.overlap.value)/100;
       const ret = Number(C.retention.value)/100;
-      const multi = Number(C.multi.value)/100;
+      const multiTransmission = Number(C.multi.value)/100;
       const b = C.baseline.value;
       const f = C.family.value;
 
@@ -49,7 +49,8 @@
       if (b === "flores") baseICV = REF.icv * Math.pow(scale, exp);
       if (b === "bodyOnly") baseICV = REF.icv;
 
-      const susceptibility = (f === "full") ? (1 + .5 * multi) : 1;
+      const transmissionNormalized = Math.max(0, Math.min(1, (multiTransmission - 0.10) / 0.19));
+      const susceptibility = (f === "full") ? (1 + .145 * transmissionNormalized) : 1;
       let boneLoss = 0;
       let brainLoss = 0;
 
@@ -164,7 +165,7 @@
       setText("#iodineOut",C.iodine.value+"%");
       setText("#overlapOut",C.overlap.value+"%");
       setText("#retentionOut",C.retention.value+"%");
-      setText("#multiOut",C.multi.value+"%");
+      setText("#multiOut",(Number(C.multi.value)/100).toFixed(2));
 
       setText("#femur",x.femur.toFixed(1));
       setText("#icv",x.icv.toFixed(0));
@@ -190,7 +191,7 @@
 
       const b = C.baseline.value;
       const f = C.family.value;
-      const familyText = f==="full" ? "full IGF + iodine + multigenerational architecture"
+      const familyText = f==="full" ? "full IGF + iodine + literature-anchored intergenerational architecture"
         : f==="igfIodine" ? "IGF + iodine without multigenerational modifier"
         : f==="igf" ? "IGF only"
         : f==="iodine" ? "iodine–thyroid only"
@@ -216,11 +217,11 @@
       },
       "#pIodine": () => {
         C.baseline.value="flores"; C.family.value="igfIodine"; C.scale.value=75; C.brainExp.value=200;
-        C.igf.value=70; C.iodine.value=82; C.overlap.value=74; C.retention.value=86; C.multi.value=0;
+        C.igf.value=70; C.iodine.value=82; C.overlap.value=74; C.retention.value=86; C.multi.value=10;
       },
       "#pBaseline": () => {
         C.baseline.value="flores"; C.family.value="none"; C.scale.value=72; C.brainExp.value=190;
-        C.igf.value=0; C.iodine.value=0; C.overlap.value=0; C.retention.value=0; C.multi.value=0;
+        C.igf.value=0; C.iodine.value=0; C.overlap.value=0; C.retention.value=0; C.multi.value=10;
       }
     };
 
@@ -235,7 +236,7 @@
 
     update();
     if (statusDot) statusDot.classList.add("ready");
-    if (statusText) statusText.textContent = "Simulator ready — controls update live.";
+    if (statusText) statusText.textContent = "Version 13.1 audited simulator ready — controls update live.";
   }
 
   if (document.readyState === "loading") {

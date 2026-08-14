@@ -1,18 +1,24 @@
-LB1 DEVELOPMENTAL PHYSIOLOGY WEBSITE — VERSION 13.2 FIXED
+LB1 DEVELOPMENTAL PHYSIOLOGY WEBSITE — VERSION 13.1 AUDITED FINAL
 
-Fixes:
-- simulator initialization now waits for DOM readiness;
-- controls listen to both input and change events;
-- simulator checks for HTML/JS version mismatches and displays status;
-- app.js is cache-busted with ?v=13.2 for GitHub Pages;
-- Python model link was moved into a professional reproducibility section;
-- top navigation now uses a clean V13 FINAL badge + View model code control;
-- formatted code preview added to the website.
+This website matches:
+LB1_Developmental_Physiology_Model_v13_1_AUDITED_FINAL.py
 
-GitHub update:
-Replace index.html, styles.css, and app.js with these files.
-Also keep LB1_Developmental_Physiology_Model_v13_FINAL.py in the repository root.
+PARAMETER-AUDIT CHANGES
+1. Normalized IGF-pathway perturbation: 0.20–1.00 -> 0.00–1.00
+2. Intergenerational growth-state transmission: 0.05–0.50 -> 0.10–0.29
 
-If the old site remains visible after GitHub redeploys, hard-refresh:
+These changes were made for parameter provenance, not to improve model fit.
+
+Unchanged:
+- iodine burden remains a normalized 0–1 latent deficiency index;
+- Flores body scale remains a broad fossil-constrained sensitivity prior;
+- brain allometry remains a comparative-allometry-derived sensitivity range;
+- five-trait score and model architecture remain unchanged.
+
+The browser simulator is explanatory. Definitive thesis inference comes from the Python Monte Carlo model.
+
+GITHUB UPDATE
+Replace index.html, styles.css, app.js, and the old V13 Python file with the files in this package.
+Then hard-refresh:
 Mac: Command + Shift + R
 Windows: Ctrl + Shift + R

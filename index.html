@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LB1 Developmental Physiology Model — Version 13 Final</title>
+<title>LB1 Developmental Physiology Model — Version 13.1 Audited Final</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="topbar">
   <a class="brand" href="#home">
     <span class="mark">LB1</span>
-    <span><strong>Developmental Physiology Model</strong><small>Version 13 Final · Thesis Freeze</small></span>
+    <span><strong>Developmental Physiology Model</strong><small>Version 13.1 Audited Final · Thesis Freeze</small></span>
   </a>
   <nav>
     <a href="#hypothesis">Hypothesis</a>
@@ -21,7 +21,7 @@
     <a href="#methods">Methods</a>
   </nav>
   <div class="source-actions">
-      <span class="version-pill"><b>V13</b><small>FINAL</small></span>
+      <span class="version-pill"><b>V13.1</b><small>FINAL</small></span>
       <a class="code-btn" href="#source-code">View model code</a>
     </div>
 </header>
@@ -30,7 +30,7 @@
 <section class="hero">
   <div class="hero-photo">
     <div class="hero-copy">
-      <div class="eyebrow">FROZEN THESIS MODEL · VERSION 13</div>
+      <div class="eyebrow">AUDITED THESIS MODEL · VERSION 13.1</div>
       <h1>From a small-bodied Flores population to an LB1-like phenotype.</h1>
       <p>
         A mechanistic sensitivity framework separating long-term Flores population
@@ -65,7 +65,7 @@
   </blockquote>
   <div class="freeze-note">
     <strong>Thesis freeze:</strong>
-    Version 13 is prespecified. Parameter bounds should not be changed after the definitive high-N result is inspected.
+    Version 13.1 incorporates the final pre-run parameter audit. Parameter bounds should not be changed after the definitive high-N result is inspected.
     Any later changes should be labeled post-hoc sensitivity analyses.
   </div>
 </section>
@@ -93,8 +93,8 @@
     <b>+</b>
     <article>
       <span>MODIFIER</span>
-      <h3>Multigenerational susceptibility</h3>
-      <p>Recurrent environmental background modifies susceptibility but never directly shrinks anatomy generation after generation.</p>
+      <h3>Intergenerational susceptibility</h3>
+      <p>A literature-anchored growth-state transmission coefficient modifies susceptibility but never directly shrinks anatomy generation after generation.</p>
       <code>S(g+1)=ρS(g)+C·E(g)(1−S(g))</code>
     </article>
     <b>→</b>
@@ -105,6 +105,32 @@
       <code>compatibility with LB1?</code>
     </article>
   </div>
+</section>
+
+
+<section class="section audit-section">
+  <div class="heading split">
+    <div>
+      <div class="eyebrow">PARAMETER AUDIT · VERSION 13.1</div>
+      <h2>Two ranges changed for provenance—not to improve fit.</h2>
+    </div>
+    <p>The architecture is unchanged. Version 13.1 revises only two parameter ranges after a literature audit conducted before the definitive high-N run.</p>
+  </div>
+  <div class="audit-grid">
+    <article>
+      <span>NORMALIZED IGF-PATHWAY PERTURBATION</span>
+      <div class="audit-change"><del>0.20–1.00</del><b>→</b><strong>0.00–1.00</strong></div>
+      <p>This is a dimensionless model index, not a measured IGF concentration or percentage. The lower bound now includes mild modeled perturbations.</p>
+      <small>Classification: prespecified sensitivity parameter</small>
+    </article>
+    <article>
+      <span>INTERGENERATIONAL GROWTH-STATE TRANSMISSION</span>
+      <div class="audit-change"><del>0.05–0.50</del><b>→</b><strong>0.10–0.29</strong></div>
+      <p>This range is anchored to reported human maternal–offspring birth-size continuity coefficients. It is not interpreted as genetic or proven epigenetic inheritance.</p>
+      <small>Classification: literature-anchored sensitivity parameter</small>
+    </article>
+  </div>
+  <div class="audit-note"><strong>Unchanged:</strong> iodine burden remains a normalized 0–1 latent deficiency index; Flores scale remains a broad fossil-constrained sensitivity prior; brain allometry remains a comparative-allometry-derived sensitivity range.</div>
 </section>
 
 <section class="context">
@@ -159,11 +185,11 @@
 
       <div class="subhead"><span>INDIVIDUAL DEVELOPMENT</span><small>explanatory controls</small></div>
 
-      <label class="range"><div><span>IGF perturbation</span><output id="igfOut"></output></div><input id="igf" type="range" min="0" max="100" value="70"></label>
+      <label class="range"><div><span>Normalized IGF perturbation</span><output id="igfOut"></output></div><input id="igf" type="range" min="0" max="100" value="70"></label>
       <label class="range"><div><span>Iodine / thyroid burden</span><output id="iodineOut"></output></div><input id="iodine" type="range" min="0" max="100" value="72"></label>
       <label class="range"><div><span>Developmental overlap</span><output id="overlapOut"></output></div><input id="overlap" type="range" min="0" max="100" value="68"></label>
       <label class="range"><div><span>Retention</span><output id="retentionOut"></output></div><input id="retention" type="range" min="0" max="100" value="82"></label>
-      <label class="range"><div><span>Multigenerational state</span><output id="multiOut"></output></div><input id="multi" type="range" min="0" max="100" value="18"></label>
+      <label class="range"><div><span>Intergenerational transmission</span><output id="multiOut"></output></div><input id="multi" type="range" min="10" max="29" value="18"></label>
 
       <div class="presets">
         <button id="pFull">Full</button><button id="pIodine">IGF+I</button><button id="pBaseline">Baseline</button>
@@ -282,7 +308,7 @@
       <div><span>Iodine burden</span><i><b style="width:9.5%"></b></i><strong>0.10</strong></div>
       <div><span>Brain allometry exponent</span><i><b style="width:6.9%"></b></i><strong>0.07</strong></div>
       <div><span>Susceptibility multiplier</span><i><b style="width:2.0%"></b></i><strong>0.02</strong></div>
-      <div><span>Multigenerational state</span><i><b style="width:1.7%"></b></i><strong>0.02</strong></div>
+      <div><span>Intergenerational transmission</span><i><b style="width:1.7%"></b></i><strong>0.02</strong></div>
     </div>
     <div class="sensitivity-copy">
       <div class="eyebrow">INTERPRETATION</div>
@@ -318,8 +344,8 @@
   <div class="methods">
     <article><span>OBSERVED TARGET</span><h3>LB1 endpoints</h3><p>280-mm femur, 430-cc ICV, crural index 83.9, humerofemoral index 87.8, and foot/femur index 70.0.</p></article>
     <article><span>EMPIRICAL INPUT</span><h3>Prenatal trajectories</h3><p>Published fetal femur and ICV trajectories generate growth-velocity weighting functions.</p></article>
-    <article><span>SENSITIVITY PRIOR</span><h3>Flores population baseline</h3><p>Linear scale 0.64–0.80 and brain exponent 1.6–2.2 are frozen uncertainty ranges, not measured Flores population distributions.</p></article>
-    <article><span>EXPLORATORY</span><h3>Multigenerational modifier</h3><p>Represents recurrent environmental susceptibility with regression toward baseline; not genetic or proven epigenetic inheritance.</p></article>
+    <article><span>SENSITIVITY PARAMETER</span><h3>Normalized IGF perturbation</h3><p>Runs from 0 to 1, where 0 means no modeled perturbation and 1 is the upper edge of the modeled parameter space; it is not a clinical IGF percentage.</p></article><article><span>SENSITIVITY PRIOR</span><h3>Flores population baseline</h3><p>Linear scale 0.64–0.80 and brain exponent 1.6–2.2 are frozen uncertainty ranges, not measured Flores population distributions.</p></article>
+    <article><span>LITERATURE-ANCHORED SENSITIVITY</span><h3>Intergenerational modifier</h3><p>Growth-state transmission is constrained to 0.10–0.29 using human maternal–offspring birth-size continuity as an anchor; it is not genetic or proven epigenetic inheritance.</p></article>
     <article><span>ROBUSTNESS</span><h3>Correlation-adjusted score</h3><p>A structural correlation matrix tests whether conclusions survive partial adjustment for shared femur information.</p></article>
     <article><span>THESIS RULE</span><h3>No post-result retuning</h3><p>Once the 500,000-per-experiment run is inspected, parameter changes become explicitly post-hoc analyses.</p></article>
   </div>
@@ -346,7 +372,7 @@
   <div class="heading split">
     <div>
       <div class="eyebrow">REPRODUCIBILITY</div>
-      <h2>The frozen Version 13 Python model.</h2>
+      <h2>The audited Version 13.1 Python model.</h2>
     </div>
     <p>The website is the interactive research companion. The Python file is the definitive Monte Carlo thesis model.</p>
   </div>
@@ -356,11 +382,11 @@
       <div>
         <span class="file-icon">PY</span>
         <div>
-          <strong>LB1_Developmental_Physiology_Model_v13_FINAL.py</strong>
+          <strong>LB1_Developmental_Physiology_Model_v13_1_AUDITED_FINAL.py</strong>
           <small>Frozen thesis analysis · default 500,000 simulations per experiment</small>
         </div>
       </div>
-      <a class="download-code" href="LB1_Developmental_Physiology_Model_v13_FINAL.py" download>Download Python model</a>
+      <a class="download-code" href="LB1_Developmental_Physiology_Model_v13_1_AUDITED_FINAL.py" download>Download Python model</a>
     </div>
 
     <pre><code><span class="code-comment"># Version 13 — frozen thesis architecture</span>
@@ -386,10 +412,10 @@
 </main>
 
 <footer>
-  <div><strong>LB1 Developmental Physiology Model</strong><span>Version 13 Final · Frozen thesis model</span></div>
+  <div><strong>LB1 Developmental Physiology Model</strong><span>Version 13.1 Audited Final · Frozen thesis model</span></div>
   <span>Mechanistic sensitivity / physiological compatibility framework</span>
 </footer>
 
-<script src="app.js?v=13.2" defer></script>
+<script src="app.js?v=13.1-audited" defer></script>
 </body>
 </html>
