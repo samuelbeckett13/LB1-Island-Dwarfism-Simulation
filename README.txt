@@ -22,3 +22,16 @@ Replace index.html, styles.css, app.js, and the old V13 Python file with the fil
 Then hard-refresh:
 Mac: Command + Shift + R
 Windows: Ctrl + Shift + R
+
+
+HYPOTHESIS WORDING UPDATE
+The website and downloadable Python model now use:
+
+"We hypothesize that multigenerational environmental factors impacting endocrine
+signaling across generations, together with transient perturbations during specific
+windows of fetal development, can produce alterations in skeletal, cranial, and
+neurological development that together could result in the phenotype observed in
+the LB1 fossil recovered from Liang Bua."
+
+This is a wording-only revision. No model equations, parameter ranges, scoring,
+or simulation logic were changed.
